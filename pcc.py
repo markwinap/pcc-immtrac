@@ -1263,7 +1263,7 @@ def main_loop():
                                     
                                     print(wwwwww)
                                     ActionChains(driver).move_to_element(wwwwww).click(wwwwww).perform()
-                                    t.sleep(2)
+                                    t.sleep(3)
 
                                     ## END - USER EDIT
                                     break

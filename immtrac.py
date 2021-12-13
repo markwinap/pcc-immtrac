@@ -28,6 +28,7 @@ thread_stopped = False
 get_e_timeout = 5
 status_string = ""
 options = None
+selected_sheet = ""
 
 # Strings
 firs_name_el_id = "txtFirstName"
@@ -295,10 +296,12 @@ def open_chrome():
 
 def main_loop():
     # read excel
-    global driver,patient_data_sheet,status_string, options 
+    global driver,patient_data_sheet,status_string, options, selected_sheet
+
+    print("SELECTED SHEET " + selected_sheet)
 
     # Read Immunizations.xlsx Excel file
-    df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name='Sheet1')
+    df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name=selected_sheet)
     patient_list = []
     for index, row in df.iterrows():
         patient_list.append(row)
@@ -785,6 +788,11 @@ def stop_automation_thread():
     else:
         thread_stopped = True
 
+def selectSheet(sheet):
+    global selected_sheet
+    selected_sheet = sheet
+    print(selected_sheet)
+
 def get_excel_gile():
     global patient_data_sheet
 
@@ -799,7 +807,9 @@ def get_excel_gile():
 # Create UI form
 class NewprojectApp:
     def __init__(self, master=None):
-        global status_string
+        global status_string, selected_sheet
+
+        df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name=None)
         # build ui
         self.toplevel1 = tk.Tk() if master is None else tk.Toplevel(master)
         # Title Label
@@ -809,6 +819,7 @@ class NewprojectApp:
         self.label1.pack(pady='10', side='top')
 
         self.frame2 = tk.Frame(self.toplevel1)
+
 
         # # Select Excel Sheet Button
         # self.open_button = ttk.Button(
@@ -822,6 +833,14 @@ class NewprojectApp:
         self.button5 = tk.Button(self.frame2)
         self.button5.configure( text='Open Chrome', command=open_chrome)
         self.button5.pack(ipadx='20', ipady='0', pady='5', side='top')
+
+        options = list(df.keys());
+        clicked = tk.StringVar()
+        clicked.set(options[0])
+        selected_sheet = options[0];
+        self.drop = tk.OptionMenu( self.frame2 , clicked , *options, command=selectSheet )
+        self.drop.pack()
+
         # Start Button
         self.button6 = tk.Button(self.frame2)
         self.button6.configure(text='Start', command=start_automation_thread)

@@ -29,6 +29,7 @@ get_e_timeout = 20
 current_users = None
 user_name = None
 password = None
+selected_sheet = ""
 
 # Strings
 specify_travel = "The minor is medically cleared to travel only if all covid quarantine clearance criteria have been met and no other concerns requiring medical follow up and/or specialty follow-up have been identified in subsequent visits."
@@ -187,12 +188,20 @@ def clean_text(txt):
     except:
         pass
 
+def selectSheet(sheet):
+    global selected_sheet
+    selected_sheet = sheet
+    print(selected_sheet)
+
 def main_loop():
     # read excel
-    global driver,patient_data_sheet, current_users, user_name, password
+    global driver,patient_data_sheet, current_users, user_name, password, selected_sheet
+
+    print("SELECTED SHEET " + selected_sheet)
+
 
     # Read Immunizations.xlsx Excel file
-    df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name='Sheet1')
+    df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name=selected_sheet)
     imm_list = []
     for index, row in df.iterrows():
         imm_list.append(row)
@@ -1456,11 +1465,11 @@ class NewprojectApp:
         self.frame2 = tk.Frame(self.toplevel1)
 
 
-        self.e1 = tk.Label(self.frame2)
-        self.e1.configure(background='#ffffff', text="User Name")
-        self.e1.pack()
-        self.e1a = tk.Entry(self.frame2)
-        self.e1a.pack()
+        # self.e1 = tk.Label(self.frame2)
+        # self.e1.configure(background='#ffffff', text="User Name")
+        # self.e1.pack()
+        # self.e1a = tk.Entry(self.frame2)
+        # self.e1a.pack()
 
 
         self.e2 = tk.Label(self.frame2)
@@ -1473,6 +1482,16 @@ class NewprojectApp:
         self.button5 = tk.Button(self.frame2)
         self.button5.configure( text='Open Chrome', command=open_chrome)
         self.button5.pack(ipadx='20', ipady='0', pady='5', side='top')
+
+        # Sheets
+        df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name=None)
+        options = list(df.keys());
+        clicked = tk.StringVar()
+        clicked.set(options[0])
+        selected_sheet = options[0];
+        self.drop = tk.OptionMenu( self.frame2 , clicked , *options, command=selectSheet )
+        self.drop.pack()
+
         # Start Button
         self.button6 = tk.Button(self.frame2)
         self.button6.configure(text='Start', command=start_automation_thread)

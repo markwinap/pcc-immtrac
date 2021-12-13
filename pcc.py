@@ -956,6 +956,11 @@ def main_loop():
                                     select_window(driver, 0)
 
                                 if data['Assessment'] == 'Yes':
+                                    # Todo: Other
+                                    # Wister test pass
+                                    # 12 other
+                                    # Phisical examination
+                                    # immnunizations given
                                     select_window(driver, 0)
                                     print("*Health Assessment Form Unaccompanied Children's Program Office of Refugee Resettlement (ORR) - V 2")
                                     # Click on "Assmnts"
@@ -1118,11 +1123,11 @@ def main_loop():
                                     else:
                                         send_click_pos(driver, 'linkCust_D_11', 1)
 
-                                    try:
-                                        driver.find_element(By.ID, 'linkCust_D_12').clear()
-                                        driver.find_element(By.ID, 'linkCust_D_12').send_keys("Whisper test passed")
-                                    except:
-                                        pass
+                                    # try:
+                                    #     driver.find_element(By.ID, 'linkCust_D_12').clear()
+                                    #     driver.find_element(By.ID, 'linkCust_D_12').send_keys("Whisper test passed")
+                                    # except:
+                                    #     pass
                                     
                                     asdddddd= driver.find_element_by_xpath('/html/body/table[5]/tbody/tr[2]/td/table/tbody/tr[5]/td/form/table/tbody/tr[2]/td/table/tbody/tr[5]/td[3]/table/tbody/tr[3]/td/table/tbody/tr[4]/td[2]')
 

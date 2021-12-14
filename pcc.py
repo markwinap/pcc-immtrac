@@ -1488,7 +1488,7 @@ class NewprojectApp:
             # Set global variable to false
             global thread_stopped, user_name, password
             thread_stopped = False
-            user_name = self.e1a.get()
+            # user_name = self.e1a.get()
             password = self.e2a.get()
 
             print('###############')

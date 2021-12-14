@@ -1486,7 +1486,7 @@ class NewprojectApp:
 
         def start_automation_thread():
             # Set global variable to false
-            global thread_stopped, user_name, password
+            global thread_stopped, user_name, password, selected_sheet
             thread_stopped = False
             # user_name = self.e1a.get()
             password = self.e2a.get()

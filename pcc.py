@@ -30,6 +30,49 @@ current_users = None
 user_name = None
 password = None
 selected_sheet = ""
+name_designation="Juan Garcia MD"
+md_do_pa_np="PA"
+clinic_or_practice="Trinity Health Services"
+vis_date="12/3/2021"
+temp_c=""
+hr=""
+bp=""
+rr=""
+ht=""
+wt=""
+no_allergies="Yes"
+food="No"
+medication="No"
+corrected_left_eye=""
+corrected_both_eyes=""
+uncorrected_right_eye="20/20"
+uncorrected_left_eye="20/20"
+uncorrected_both_eyes="20/20"
+medical_history=""
+travel_history="0"
+past_medical_history="Denies"
+family_history="Denies"
+lmp="N/A"
+previous_regnancy="N/A"
+no_abnormal_findings="Yes"
+other_1=""
+other_2=""
+general_appearance="normal"
+heent="normal"
+neck="normal"
+heart="normal"
+lungs="normal"
+abdomen="normal"
+gu_gyn=""
+describe="Deffered"
+extremeties="normal"
+back_spine="normal"
+neurologic="normal"
+skin="normal"
+describe_concerns=""
+mental_health="0"
+h15="n"
+other_medical="Contact with and (suspected) exposure to COVID-19."
 
 # Strings
 specify_travel = "The minor is medically cleared to travel only if all covid quarantine clearance criteria have been met and no other concerns requiring medical follow up and/or specialty follow-up have been identified in subsequent visits."
@@ -221,7 +264,7 @@ def main_loop():
             target_user_a = str(data['A#'])
             target_user_id = clean_text(str(data['userId']))
             targent_name = data['First Name'] + ' ' + data['Last Name']
-            targent_name_designation = data['name_designation']
+
             print("Processing - " + target_user_id + "-" + target_user_a + "-" + targent_name)
             select_window(driver, 0)
             # overwrite_file()
@@ -409,7 +452,7 @@ def main_loop():
                                         # Set date of vaccine
                                         send_text(driver, "dateGiven_dummy", get_string_date(data['Date of visit']))
                                         # Set notes
-                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(data['VIS Date']) + "\n" + "VIS Given: " + get_string_date(data['Date of visit']) + "\n" + "Funding: " + select_vacc["Funding"]
+                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(data['Date of visit']) + "\n" + "Funding: " + select_vacc["Funding"]
                                         send_text_name(driver, "notes", notes)
                                         # Click on button "Save & New"
                                         click_button_value(driver, "Save & New")
@@ -471,7 +514,7 @@ def main_loop():
                                     try:
                                         # A.General Information - a.Name and Designation
                                         driver.find_element(By.ID, 'linkCust_A_1_1').clear()
-                                        driver.find_element(By.ID, 'linkCust_A_1_1').send_keys(data['name_designation'])
+                                        driver.find_element(By.ID, 'linkCust_A_1_1').send_keys(name_designation)
                                     except:
                                         pass
                                     try:
@@ -481,7 +524,7 @@ def main_loop():
                                         pass
                                     try:
                                         driver.find_element(By.ID, 'linkCust_A_3').clear()
-                                        driver.find_element(By.ID, 'linkCust_A_3').send_keys(data['Clinic or Practice'])
+                                        driver.find_element(By.ID, 'linkCust_A_3').send_keys(clinic_or_practice)
                                     except:
                                         pass
                                     try:
@@ -582,7 +625,7 @@ def main_loop():
                                         driver.find_elements(By.ID, 'linkCust_D_1')[0].click()
                                     except:
                                         pass
-                                    # D.2 - HEENT - Normal
+                                    # D.2 - heent - Normal
                                     try:
                                         driver.find_elements(By.ID, 'linkCust_D_2')[0].click()
                                     except:
@@ -812,7 +855,7 @@ def main_loop():
                                         break
                                     print("Section A - Demographics")
                                     # A.1.
-                                    send_text(driver, "linkCust_A_1", data['name_designation'])
+                                    send_text(driver, "linkCust_A_1", name_designation)
                                     # A.1.a.
                                     send_text(driver, "linkCust_A_1a_dummy", get_string_date(data['Date of visit']))
                                     # A.2.b.
@@ -997,7 +1040,7 @@ def main_loop():
                                     t.sleep(1)
 
                                     # A.General Information - a.Name and Designation
-                                    send_text(driver, 'linkCust_A_1_1', data['name_designation'])
+                                    send_text(driver, 'linkCust_A_1_1', name_designation)
 
                                     # Stop If Stop Button is pressed
                                     if thread_stopped == True:
@@ -1008,24 +1051,24 @@ def main_loop():
                                     # Stop If Stop Button is pressed
                                     if thread_stopped == True:
                                         break
-                                    send_text(driver, 'linkCust_A_2', data['MD/DO/PA/NP'])
-                                    send_text(driver, 'linkCust_A_3', data['Clinic or Practice'])
+                                    send_text(driver, 'linkCust_A_2', md_do_pa_np)
+                                    send_text(driver, 'linkCust_A_3', clinic_or_practice)
                                     send_text(driver, 'linkCust_A_4', data['Healthcare Provider Street address, City or Town, State'])
                                     # send_text(driver, 'linkCust_A_5_dummy', data['Date of visit'])
 
                                     send_text(driver, "linkCust_A_5_dummy", get_string_date(data['Date of visit']))
                                     send_text(driver, 'linkCust_A_7', data['Program Name'])
-                                    send_text(driver, 'Cust_B_1', data['Temp (C°)'])
-                                    send_text(driver, 'linkCust_B_1a', data['HR'])
-                                    send_text(driver, 'linkCust_B_1b', data['BP (3 years or over)'])
-                                    send_text(driver, 'linkCust_B_1c', data['RR'])
-                                    send_text(driver, 'linkCust_B_1d', data['Ht (cm):'])
-                                    send_text(driver, 'linkCust_B_1e', data['WT(kg):'])
+                                    send_text(driver, 'Cust_B_1', temp_c)
+                                    send_text(driver, 'linkCust_B_1a', hr)
+                                    send_text(driver, 'linkCust_B_1b', bp)
+                                    send_text(driver, 'linkCust_B_1c', rr)
+                                    send_text(driver, 'linkCust_B_1d', ht)
+                                    send_text(driver, 'linkCust_B_1e', wt)
 
                                     #  B. History and Physical - Allergies 
-                                    if data['No allergies'] == 'Yes':
+                                    if no_allergies == 'Yes':
                                         send_click_pos(driver, 'linkCust_B_2', 0)
-                                    if data['Food'] == 'Yes':
+                                    if food == 'Yes':
                                         send_click_pos(driver, 'linkCust_D_2', 1)
                                     if data['Medication'] == 'Yes':
                                         send_click_pos(driver, 'linkCust_D_2', 2)
@@ -1039,86 +1082,86 @@ def main_loop():
                                     except:
                                         pass
 
-                                    send_text(driver, 'linkCust_B_3a', data['Corrected- Left eye'])
+                                    send_text(driver, 'linkCust_B_3a', corrected_left_eye)
 
-                                    send_text(driver, 'linkCust_B_3b', data['Corrected- Both eyes'])
+                                    send_text(driver, 'linkCust_B_3b', corrected_both_eyes)
 
-                                    send_text(driver, 'linkCust_B_4', data['Uncorrected- Right eye'])
+                                    send_text(driver, 'linkCust_B_4', uncorrected_right_eye)
 
-                                    send_text(driver, 'linkCust_B_4b', data['Uncorrected- Both eyes'])
+                                    send_text(driver, 'linkCust_B_4b', uncorrected_both_eyes)
 
-                                    send_text(driver, 'linkCust_B_5', data['medical history: Concerns expressed by child or caregive'])
+                                    send_text(driver, 'linkCust_B_5', medical_history)
 
-                                    send_text(driver, 'linkCust_B_6', data['Travel History (countries visited, dates of arrival and departure for each)'])
+                                    send_text(driver, 'linkCust_B_6', travel_history)
 
-                                    send_text(driver, 'linkCust_B_7', data['Past Medical History (Include surgeries or hospital admissions)'])
+                                    send_text(driver, 'linkCust_B_7', past_medical_history)
 
-                                    send_text(driver, 'linkCust_B_8', data['Family History'])
+                                    send_text(driver, 'linkCust_B_8', family_history)
 
-                                    send_text(driver, 'linkCust_B_9', str(data['LMP (Date or N/A):']))
+                                    send_text(driver, 'linkCust_B_9', str(lmp))
 
-                                    send_text(driver, 'linkCust_B_9a', str(data['Previous Pregnancy (G/P or N/A)']))
+                                    send_text(driver, 'linkCust_B_9a', str(previous_regnancy))
 
-                                    send_text(driver, 'linkCust_C_21', data['Other 1, specify'])
+                                    send_text(driver, 'linkCust_C_21', other_1)
 
-                                    send_text(driver, 'linkCust_C_22', data['Other 2, specify:'])
+                                    send_text(driver, 'linkCust_C_22', other_2)
 
 
-                                    if data['No abnormal Findings'] == 'Yes':
+                                    if no_abnormal_findings == 'Yes':
                                         send_click(driver, 'linkCust_C_1')
 
-                                    if data['General Appearance'].lower() == 'normal':
+                                    if general_appearance.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_1', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_1', 1)
 
-                                    if data['HEENT'].lower() == 'normal':
+                                    if heent.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_2', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_2', 1)
 
-                                    if data['Neck'].lower() == 'normal':
+                                    if neck.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_3', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_3', 1)
 
-                                    if data['Heart'].lower() == 'normal':
+                                    if heart.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_4', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_4', 1)
 
-                                    if data['Lungs'].lower() == 'normal':
+                                    if lungs.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_5', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_5', 1)
 
-                                    if data['Abdomen'].lower() == 'normal':
+                                    if abdomen.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_6', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_6', 1)
                                         
                                     try:
                                         d7a=driver.find_element_by_id('linkCust_D_7a')
-                                        ActionChains(driver).move_to_element( d7a).click( d7a).send_keys(data['Describe']).perform()
+                                        ActionChains(driver).move_to_element( d7a).click( d7a).send_keys(describe).perform()
                                     except:
                                         pass
 
-                                    if data['extremeties'].lower() == 'normal':
+                                    if extremeties.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_8', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_8', 1)
 
-                                    if data['Back/spine'].lower() == 'normal':
+                                    if back_spine.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_9', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_9', 1)
 
-                                    if data['neurologic'].lower() == 'normal':
+                                    if neurologic.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_10', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_10', 1)
 
-                                    if data['skin'].lower() == 'normal':
+                                    if skin.lower() == 'normal':
                                         send_click_pos(driver, 'linkCust_D_11', 0)
                                     else:
                                         send_click_pos(driver, 'linkCust_D_11', 1)
@@ -1134,7 +1177,7 @@ def main_loop():
                                     try:
                                         
                                         buttonnn= asdddddd.find_elements_by_tag_name('input')
-                                        ActionChains(driver).move_to_element(buttonnn[int(data['Mental Health (over last 3 months) '])]).click(buttonnn[int(data['Mental Health (over last 3 months) '])]).perform()
+                                        ActionChains(driver).move_to_element(buttonnn[int(mental_health)]).click(buttonnn[int(mental_health)]).perform()
                                     except:
                                         pass
 
@@ -1167,7 +1210,7 @@ def main_loop():
                                     try:
                                         # No se encontro
                                         b1e=driver.find_elements_by_id('linkCust_H_13')
-                                        ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(data['Other, Medical']).perform()
+                                        ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(other_medical).perform()
                                     except:
                                         pass
 
@@ -1195,7 +1238,7 @@ def main_loop():
                                     try:
                                         # No se encontro
                                         b1e=driver.find_elements_by_id('linkCust_H_15e')
-                                        ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(data['h15(e)']).perform()
+                                        ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(h15).perform()
                                     except:
                                         pass
                                             
@@ -1203,7 +1246,7 @@ def main_loop():
                                     # try:
                                     #     # Escondido
                                     #     e1a=driver.find_element_by_id('linkCust_E_1a')
-                                    #     ActionChains(driver).move_to_element( e1a).click( e1a).send_keys(data['Describe concerns']).perform()
+                                    #     ActionChains(driver).move_to_element( e1a).click( e1a).send_keys(describe_concerns).perform()
                                     # except:
                                     #     pass
                                     try:

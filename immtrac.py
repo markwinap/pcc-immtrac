@@ -43,6 +43,9 @@ country_el_id = "lstCounty"
 date_administered_el_id = "vaccinationDate"
 prescribed_by_el_id = "defaultAdministeredById"
 save_button_el_id = "saveButton"
+ethnicity="Hispanic or Latino"
+race="Other Race"
+
 
 # FUNCTIONS
 def wait_button(d, el, t):
@@ -427,19 +430,19 @@ def main_loop():
                 status_string = "Select Race"
                 print(status_string)
                 # Select Race base if text contains
-                if "indian" in patient_list[i]['Race'].lower():
+                if "indian" in race.lower():
                     click_button_name(driver, 'indian')
-                if "asian" in patient_list[i]['Race'].lower():
+                if "asian" in race.lower():
                     click_button_name(driver, 'asian')
-                if "hawaiian" in patient_list[i]['Race'].lower():
+                if "hawaiian" in race.lower():
                     click_button_name(driver, 'hawaiian')
-                if "black" in patient_list[i]['Race'].lower():
+                if "black" in race.lower():
                     click_button_name(driver, 'black')
-                if "white" in patient_list[i]['Race'].lower():
+                if "white" in race.lower():
                     click_button_name(driver, 'white')
-                if "other" in patient_list[i]['Race'].lower():
+                if "other" in race.lower():
                     click_button_name(driver, 'other')
-                if "recipient" in patient_list[i]['Race'].lower():
+                if "recipient" in race.lower():
                     click_button_name(driver, 'recipientRefused')
 
                 # Stop If Stop Button is pressed
@@ -452,7 +455,7 @@ def main_loop():
                 ## Recipient Refused
                 status_string = "Select Ethnicity"
                 print(status_string)
-                select_menu_id_text(driver, ethnicity_el_id, patient_list[i]['Ethnicity'])
+                select_menu_id_text(driver, ethnicity_el_id, ethnicity)
                 # ZIP Code
                 send_text(driver, zip_el_id, patient_list[i]['ZIP'])
                 # City

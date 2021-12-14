@@ -1483,6 +1483,8 @@ def get_excel_gile():
 
 class NewprojectApp:
     def __init__(self, master=None):
+        global selected_sheet
+        df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name=None)
 
         def start_automation_thread():
             # Set global variable to false
@@ -1492,7 +1494,7 @@ class NewprojectApp:
             password = self.e2a.get()
 
             print('###############')
-            print(user_name)
+            # print(user_name)
             print(password)
             print('###############')
 
@@ -1532,7 +1534,6 @@ class NewprojectApp:
         self.button5.pack(ipadx='20', ipady='0', pady='5', side='top')
 
         # Sheets
-        df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name=None)
         options = list(df.keys());
         clicked = tk.StringVar()
         clicked.set(options[0])

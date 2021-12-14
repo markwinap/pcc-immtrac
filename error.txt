@@ -1,2 +1,4 @@
 2021-12-13 13:50:30 - Main profile creation - 'ImmTrac2Id'
 2021-12-13 13:50:38 - Main profile creation - 'ImmTrac2Id'
+2021-12-14 08:18:33 - 'NoneType' object has no attribute 'find_element'
+2021-12-14 08:18:55 - 'A#'

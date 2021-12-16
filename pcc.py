@@ -384,29 +384,29 @@ def main_loop():
                                 ## START - USER EDIT
                                 
                                 vaccines_list = []
-                                if data['Influenza'] == 'Yes':
+                                if clean_text(data['Influenza']).lower() == 'yes':
                                     vaccines_list.append('Influenza')
-                                if data['Tdap'] == 'Yes':
+                                if clean_text(data['Tdap']).lower() == 'yes':
                                     vaccines_list.append('Tdap')
-                                if data['Td'] == 'Yes':
+                                if clean_text(data['Td']).lower() == 'yes':
                                     vaccines_list.append('Td')
-                                if data['Hepatitis A'] == 'Yes':
+                                if clean_text(data['Hepatitis A']).lower() == 'yes':
                                     vaccines_list.append('Hepatitis A')
-                                if data['Hepatitis B'] == 'Yes':
+                                if clean_text(data['Hepatitis B']).lower() == 'yes':
                                     vaccines_list.append('Hepatitis B')
-                                if data['HPV'] == 'Yes':
+                                if clean_text(data['HPV']).lower() == 'yes':
                                     vaccines_list.append('HPV')
-                                if data['IPV'] == 'Yes':
+                                if clean_text(data['IPV']).lower() == 'yes':
                                     vaccines_list.append('IPV')
-                                if data['Meningicoccal'] == 'Yes':
+                                if clean_text(data['Meningicoccal']).lower() == 'yes':
                                     vaccines_list.append('Meningicoccal')
-                                if data['MMR'] == 'Yes':
+                                if clean_text(data['MMR']).lower() == 'yes':
                                     vaccines_list.append('MMR')
-                                if data['Varicella'] == 'Yes':
+                                if clean_text(data['Varicella']).lower() == 'yes':
                                     vaccines_list.append('Varicella')
-                                if data['SARS-COV-2'] == 'Yes':
+                                if clean_text(data['SARS-COV-2']).lower() == 'yes':
                                     vaccines_list.append('SARS-COV-2')
-                                if data['SARS-COV-2 < 12'] == 'Yes':
+                                if clean_text(data['SARS-COV-2 < 12']).lower() == 'yes':
                                     vaccines_list.append('SARS-COV-2 < 12')
 
                                 if len(vaccines_list) > 0:
@@ -464,9 +464,9 @@ def main_loop():
                                     # Todo: Marco Martinez - Click on cancel button
 
 
-                                if data['Initial Medical Form'] == 'Yes':
+                                if clean_text(data['Initial Medical Form']).lower() == 'yes':
                                     select_window(driver, 0)
-                                    print("Initial Medical Form Starting")
+                                    print("*Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3 ")
                                     # Click on "Assmnts"
                                     assessment=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[9]/a')
                                     ActionChains(driver).move_to_element(assessment).click(assessment).perform()
@@ -490,6 +490,7 @@ def main_loop():
 
                                     # Select Assesment
                                     assessment = Select(driver.find_element(By.ID, 'std_assessment'))
+                                    # *Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3 
                                     assessment.select_by_value('548885')
 
                                     # Click on "save" button - value="Save"
@@ -810,7 +811,7 @@ def main_loop():
                                     except:
                                         pass
                                     t.sleep(3)                            
-                                if data['Quarantine Form'] == 'Yes':
+                                if clean_text(data['Quarantine Form']).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("Quarantine/Isolation")
                                     # Click on "Assmnts"
@@ -836,6 +837,7 @@ def main_loop():
 
                                     # Select Assesment
                                     assessment = Select(driver.find_element(By.ID, 'std_assessment'))
+                                    # Quarantine/Isolation 
                                     assessment.select_by_value('547095')
 
                                     # Click on "save" button - value="Save"
@@ -901,7 +903,7 @@ def main_loop():
                                     # print("Quarantine Form Completed")
                                     # t.sleep(3)
                                     # select_window(driver, 0)
-                                if data['Standing Orders Form'] == 'Yes':
+                                if clean_text(data['Standing Orders Form']).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("Standing Orders 12 and Over")
                                     # Click on "Assmnts"
@@ -927,6 +929,7 @@ def main_loop():
 
                                     # Select Assesment
                                     assessment = Select(driver.find_element(By.ID, 'std_assessment'))
+                                    # Standing Orders 12 and Over 
                                     assessment.select_by_value('548012')
 
                                     # Click on "save" button - value="Save"
@@ -997,13 +1000,7 @@ def main_loop():
                                     print("Standing Orders Form Completed")
                                     t.sleep(3)
                                     select_window(driver, 0)
-
-                                if data['Assessment'] == 'Yes':
-                                    # Todo: Other
-                                    # Wister test pass
-                                    # 12 other
-                                    # Phisical examination
-                                    # immnunizations given
+                                if clean_text(data['Assessment']).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("*Health Assessment Form Unaccompanied Children's Program Office of Refugee Resettlement (ORR) - V 2")
                                     # Click on "Assmnts"
@@ -1057,20 +1054,20 @@ def main_loop():
                                     # send_text(driver, 'linkCust_A_5_dummy', data['Date of visit'])
 
                                     send_text(driver, "linkCust_A_5_dummy", get_string_date(data['Date of visit']))
-                                    send_text(driver, 'linkCust_A_7', data['Program Name'])
-                                    send_text(driver, 'Cust_B_1', temp_c)
-                                    send_text(driver, 'linkCust_B_1a', hr)
-                                    send_text(driver, 'linkCust_B_1b', bp)
-                                    send_text(driver, 'linkCust_B_1c', rr)
-                                    send_text(driver, 'linkCust_B_1d', ht)
-                                    send_text(driver, 'linkCust_B_1e', wt)
+                                    # send_text(driver, 'linkCust_A_7', data['Program Name'])
+                                    # send_text(driver, 'Cust_B_1', temp_c)
+                                    # send_text(driver, 'linkCust_B_1a', hr)
+                                    # send_text(driver, 'linkCust_B_1b', bp)
+                                    # send_text(driver, 'linkCust_B_1c', rr)
+                                    # send_text(driver, 'linkCust_B_1d', ht)
+                                    # send_text(driver, 'linkCust_B_1e', wt)
 
                                     #  B. History and Physical - Allergies 
                                     if no_allergies == 'Yes':
                                         send_click_pos(driver, 'linkCust_B_2', 0)
                                     if food == 'Yes':
                                         send_click_pos(driver, 'linkCust_D_2', 1)
-                                    if data['Medication'] == 'Yes':
+                                    if medication == 'Yes':
                                         send_click_pos(driver, 'linkCust_D_2', 2)
 
                                     # B: History and Physical - 3. Concerns expressed by child or caregiver?
@@ -1552,7 +1549,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.6")
+        self.label2.configure(background='#ffffff', text="Version 1.7")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

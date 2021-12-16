@@ -580,31 +580,31 @@ def main_loop():
             print('Populate Array')
             # Update Vactinations Array
             vaccine_list_to_add = []
-            if patient_list[i]['Hepatitis A'] == "Yes":
+            if clean_text(patient_list[i]['Hepatitis A']).lower() == 'yes':
                 vaccine_list_to_add.append("Hepatitis A")
-            if patient_list[i]['Hepatitis B'] == "Yes":
+            if clean_text(patient_list[i]['Hepatitis B']).lower() == 'yes':
                 vaccine_list_to_add.append("Hepatitis B")
-            if patient_list[i]['HPV'] == "Yes":
+            if clean_text(patient_list[i]['HPV']).lower() == 'yes':
                 vaccine_list_to_add.append("HPV")
-            if patient_list[i]['Influenza'] == "Yes":
+            if clean_text(patient_list[i]['Influenza']).lower() == 'yes':
                 vaccine_list_to_add.append("Influenza")
-            if patient_list[i]['Meningicoccal'] == "Yes":
+            if clean_text(patient_list[i]['Meningicoccal']).lower() == 'yes':
                 vaccine_list_to_add.append("Meningicoccal")
             # if patient_list[i]['Td/Tdap'] == "Yes":
             #     vaccine_list_to_add.append("Td/Tdap")
-            if patient_list[i]['Td'] == "Yes":
+            if clean_text(patient_list[i]['Td']).lower() == 'yes':
                 vaccine_list_to_add.append("Td")
-            if patient_list[i]['Tdap'] == "Yes":
+            if clean_text(patient_list[i]['Tdap']).lower() == 'yes':
                 vaccine_list_to_add.append("Tdap")
-            if patient_list[i]['Varicella'] == "Yes":
+            if clean_text(patient_list[i]['Varicella']).lower() == 'yes':
                 vaccine_list_to_add.append("Varicella")
-            if patient_list[i]['MMR'] == "Yes":
+            if clean_text(patient_list[i]['MMR']).lower() == 'yes':
                 vaccine_list_to_add.append("MMR")
-            if patient_list[i]['IPV'] == "Yes":
+            if clean_text(patient_list[i]['IPV']).lower() == 'yes':
                 vaccine_list_to_add.append("IPV")
-            if patient_list[i]['SARS-COV-2'] == "Yes":
+            if clean_text(patient_list[i]['SARS-COV-2']).lower() == 'yes':
                 vaccine_list_to_add.append("SARS-COV-2")
-            if patient_list[i]['SARS-COV-2 < 12'] == "Yes":
+            if clean_text(patient_list[i]['SARS-COV-2 < 12']).lower() == 'yes':
                 vaccine_list_to_add.append("SARS-COV-2 < 12")
             print(vaccine_list_to_add)
 

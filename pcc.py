@@ -136,6 +136,13 @@ def send_click_pos(d, el, pos):
         print(e)
         pass
 
+def send_click_pos_by_class(d, el, pos):
+    try:
+        d.find_elements(By.CLASS_NAME, el)[pos].click()
+    except Exception as e:
+        print(e)
+        pass
+
 def send_click(d, el):
     try:
         d.find_element(By.ID, el).click()
@@ -404,9 +411,9 @@ def main_loop():
                                     vaccines_list.append('MMR')
                                 if clean_text(data['Varicella']).lower() == 'yes':
                                     vaccines_list.append('Varicella')
-                                if clean_text(data['SARS-COV-2']).lower() == 'yes':
+                                if clean_text(data['SARS-COV-2']).lower() == 'yes' and clean_text(data['Dose 2']).lower() != 'yes':
                                     vaccines_list.append('SARS-COV-2')
-                                if clean_text(data['SARS-COV-2 < 12']).lower() == 'yes':
+                                if clean_text(data['SARS-COV-2 < 12']).lower() == 'yes' and clean_text(data['Dose 2']).lower() != 'yes':
                                     vaccines_list.append('SARS-COV-2 < 12')
 
                                 if len(vaccines_list) > 0:
@@ -463,7 +470,64 @@ def main_loop():
                                     send_click(driver, "cancelButton")
                                     # Todo: Marco Martinez - Click on cancel button
 
+                                if clean_text(data['Dose 2']).lower() == 'yes':
+                                    print("Add SARS-COV-2 Dose 2")
+                                    # Click on Immun tab
+                                    click_link(driver, "Immun")
+                                    immun=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[6]/a')
+                                    ActionChains(driver).move_to_element(immun).click(immun).perform()
+                                    t.sleep(2)
+                                    send_click_pos_by_class(driver, "listbuttonred", 0)
+                                    t.sleep(2)
+                                    wait_window(driver)
+                                    # Select popup window
+                                    select_window(driver, -1)
+                                    vaccines_list_dose = []
+                                    if clean_text(data['SARS-COV-2']).lower() == 'yes':
+                                        vaccines_list_dose.append('SARS-COV-2')
+                                    if clean_text(data['SARS-COV-2 < 12']).lower() == 'yes':
+                                        vaccines_list_dose.append('SARS-COV-2 < 12')
+                                    
+                                    for vacc in vaccines_list_dose:
+                                        wait_button(driver, "cancelButton", By.ID)
+                                        select_vacc = get_vaccine_by_name(vacc, immunizations_list)
+                                        # Menu select "Immunization"
+                                        t.sleep(1)
+                                        print(select_vacc["Name"] + "-" + clean_text(str(select_vacc["Menu val"])))
+                                        if select_vacc["Search"] == "Yes":
+                                            click_link_href(driver, "javascript:cvxCodeSearch();")
+                                            t.sleep(0.5)
+                                            wait_window(driver)
+                                            # Select popup window
+                                            select_window(driver, -1)
+                                            send_text(driver, "searchText", select_vacc["Search Name"])
+                                            send_enter(driver, "searchText")
+                                            t.sleep(1)
+                                            vac_res =driver.find_element(By.CLASS_NAME, 'pccResults').find_elements(By.TAG_NAME, 'tr')
+                                            if len(vac_res[1].find_elements(By.TAG_NAME, 'a')) > 0:
+                                                vac_res[int(select_vacc["Search Pos"])].find_elements(By.TAG_NAME, 'a')[0].click()
+                                                t.sleep(0.5)
+                                                select_window(driver, 0)
+                                                t.sleep(0.5)
+                                                select_window(driver, -1)
+                                        # Menu select "Given"
+                                        select_menu_name(driver, "consentGiven", "Y")
+                                        t.sleep(0.5)
+                                        # Set date of vaccine
+                                        send_text(driver, "dateGiven_dummy", get_string_date(data['Date of visit']))
+                                        # Set notes
+                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(data['Date of visit']) + "\n" + "Funding: " + select_vacc["Funding"]
+                                        send_text_name(driver, "notes", notes)
+                                        # Click on button "Save & New"
+                                        click_button_value(driver, "Save & New")
+                                        t.sleep(2)
+                                    t.sleep(1)
+                                    select_window(driver, -1)
+                                    wait_button(driver, "cancelButton", By.ID)
+                                    send_click(driver, "cancelButton")
+                                    # Todo: Marco Martinez - Click on cancel button
 
+                                    
                                 if clean_text(data['Initial Medical Form']).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("*Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3 ")

@@ -238,6 +238,13 @@ def clean_text(txt):
     except:
         pass
 
+def getData(obj , name):
+  try:
+    return obj[name]
+  except Exception as e:
+    print(e)
+    return ""
+
 def selectSheet(sheet):
     global selected_sheet
     selected_sheet = sheet
@@ -268,9 +275,9 @@ def main_loop():
             dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
             print("date and time =", dt_string, '>>>>logging in  ')	
 
-            target_user_a = str(data['A#'])
-            target_user_id = clean_text(str(data['userId']))
-            targent_name = data['First Name'] + ' ' + data['Last Name']
+            target_user_a = str(getData(data,'A#'))
+            target_user_id = clean_text(str(getData(data,'userId')))
+            targent_name = getData(data,'First Name') + ' ' + getData(data,'Last Name')
 
             print("Processing - " + target_user_id + "-" + target_user_a + "-" + targent_name)
             select_window(driver, 0)
@@ -391,29 +398,29 @@ def main_loop():
                                 ## START - USER EDIT
                                 
                                 vaccines_list = []
-                                if clean_text(data['Influenza']).lower() == 'yes':
+                                if clean_text(getData(data,'Influenza')).lower() == 'yes':
                                     vaccines_list.append('Influenza')
-                                if clean_text(data['Tdap']).lower() == 'yes':
+                                if clean_text(getData(data,'Tdap')).lower() == 'yes':
                                     vaccines_list.append('Tdap')
-                                if clean_text(data['Td']).lower() == 'yes':
+                                if clean_text(getData(data,'Td')).lower() == 'yes':
                                     vaccines_list.append('Td')
-                                if clean_text(data['Hepatitis A']).lower() == 'yes':
-                                    vaccines_list.append('Hepatitis A')
-                                if clean_text(data['Hepatitis B']).lower() == 'yes':
+                                if clean_text(getData(data,'Hepatitis A')).lower() == 'yes':
+                                    vaccines_list.append(data,'Hepatitis A')
+                                if clean_text(getData(data,'Hepatitis B')).lower() == 'yes':
                                     vaccines_list.append('Hepatitis B')
-                                if clean_text(data['HPV']).lower() == 'yes':
+                                if clean_text(getData(data,'HPV')).lower() == 'yes':
                                     vaccines_list.append('HPV')
-                                if clean_text(data['IPV']).lower() == 'yes':
+                                if clean_text(getData(data,'IPV')).lower() == 'yes':
                                     vaccines_list.append('IPV')
-                                if clean_text(data['Meningicoccal']).lower() == 'yes':
+                                if clean_text(getData(data,'Meningicoccal')).lower() == 'yes':
                                     vaccines_list.append('Meningicoccal')
-                                if clean_text(data['MMR']).lower() == 'yes':
+                                if clean_text(getData(data,'MMR')).lower() == 'yes':
                                     vaccines_list.append('MMR')
-                                if clean_text(data['Varicella']).lower() == 'yes':
+                                if clean_text(getData(data,'Varicella')).lower() == 'yes':
                                     vaccines_list.append('Varicella')
-                                if clean_text(data['SARS-COV-2']).lower() == 'yes' and clean_text(data['Dose 2']).lower() != 'yes':
+                                if clean_text(getData(data,'SARS-COV-2')).lower() == 'yes' and clean_text(getData(data,'Dose 2')).lower() != 'yes':
                                     vaccines_list.append('SARS-COV-2')
-                                if clean_text(data['SARS-COV-2 < 12']).lower() == 'yes' and clean_text(data['Dose 2']).lower() != 'yes':
+                                if clean_text(getData(data,'SARS-COV-2 < 12')).lower() == 'yes' and clean_text(getData(data,'Dose 2')).lower() != 'yes':
                                     vaccines_list.append('SARS-COV-2 < 12')
 
                                 if len(vaccines_list) > 0:
@@ -457,9 +464,9 @@ def main_loop():
                                         select_menu_name(driver, "consentGiven", "Y")
                                         t.sleep(0.5)
                                         # Set date of vaccine
-                                        send_text(driver, "dateGiven_dummy", get_string_date(data['Date of visit']))
+                                        send_text(driver, "dateGiven_dummy", get_string_date(getData(data,'Date of visit')))
                                         # Set notes
-                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(data['Date of visit']) + "\n" + "Funding: " + select_vacc["Funding"]
+                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(getData(data,'Date of visit')) + "\n" + "Funding: " + select_vacc["Funding"]
                                         send_text_name(driver, "notes", notes)
                                         # Click on button "Save & New"
                                         click_button_value(driver, "Save & New")
@@ -470,7 +477,7 @@ def main_loop():
                                     send_click(driver, "cancelButton")
                                     # Todo: Marco Martinez - Click on cancel button
 
-                                if clean_text(data['Dose 2']).lower() == 'yes':
+                                if clean_text(getData(data,'Dose 2')).lower() == 'yes':
                                     print("Add SARS-COV-2 Dose 2")
                                     # Click on Immun tab
                                     click_link(driver, "Immun")
@@ -483,9 +490,9 @@ def main_loop():
                                     # Select popup window
                                     select_window(driver, -1)
                                     vaccines_list_dose = []
-                                    if clean_text(data['SARS-COV-2']).lower() == 'yes':
+                                    if clean_text(getData(data,'SARS-COV-2')).lower() == 'yes':
                                         vaccines_list_dose.append('SARS-COV-2')
-                                    if clean_text(data['SARS-COV-2 < 12']).lower() == 'yes':
+                                    if clean_text(getData(data,'SARS-COV-2 < 12')).lower() == 'yes':
                                         vaccines_list_dose.append('SARS-COV-2 < 12')
                                     
                                     for vacc in vaccines_list_dose:
@@ -514,9 +521,9 @@ def main_loop():
                                         select_menu_name(driver, "consentGiven", "Y")
                                         t.sleep(0.5)
                                         # Set date of vaccine
-                                        send_text(driver, "dateGiven_dummy", get_string_date(data['Date of visit']))
+                                        send_text(driver, "dateGiven_dummy", get_string_date(getData(data,'Date of visit')))
                                         # Set notes
-                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(data['Date of visit']) + "\n" + "Funding: " + select_vacc["Funding"]
+                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(getData(data,'Date of visit')) + "\n" + "Funding: " + select_vacc["Funding"]
                                         send_text_name(driver, "notes", notes)
                                         # Click on button "Save & New"
                                         click_button_value(driver, "Save & New")
@@ -528,7 +535,7 @@ def main_loop():
                                     # Todo: Marco Martinez - Click on cancel button
 
                                     
-                                if clean_text(data['Initial Medical Form']).lower() == 'yes':
+                                if clean_text(getData(data,'Initial Medical Form')).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("*Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3 ")
                                     # Click on "Assmnts"
@@ -584,7 +591,7 @@ def main_loop():
                                         pass
                                     try:
                                         driver.find_element(By.ID, 'linkCust_A_1_2').clear()
-                                        driver.find_element(By.ID, 'linkCust_A_1_2').send_keys(str(data['telephone']))
+                                        driver.find_element(By.ID, 'linkCust_A_1_2').send_keys(str(getData(data,'telephone')))
                                     except:
                                         pass
                                     try:
@@ -594,17 +601,17 @@ def main_loop():
                                         pass
                                     try:
                                         driver.find_element(By.ID, 'linkCust_A_4').clear()
-                                        driver.find_element(By.ID, 'linkCust_A_4').send_keys(data['Healthcare Provider Street address, City or Town, State'])
+                                        driver.find_element(By.ID, 'linkCust_A_4').send_keys(getData(data,'Healthcare Provider Street address, City or Town, State'))
                                     except:
                                         pass
                                     try:
                                         driver.find_element(By.ID, 'linkCust_A_5_dummy').clear()
-                                        driver.find_element(By.ID, 'linkCust_A_5_dummy').send_keys(get_string_date(data['Date of visit']))
+                                        driver.find_element(By.ID, 'linkCust_A_5_dummy').send_keys(get_string_date(getData(data,'Date of visit')))
                                     except:
                                         pass
                                     try:
                                         driver.find_element(By.ID, 'linkCust_A_7').clear()
-                                        driver.find_element(By.ID, 'linkCust_A_7').send_keys(data['Program Name'])
+                                        driver.find_element(By.ID, 'linkCust_A_7').send_keys(getData(data,'Program Name'))
                                     except:
                                         pass
                                     # Stop If Stop Button is pressed
@@ -875,7 +882,7 @@ def main_loop():
                                     except:
                                         pass
                                     t.sleep(3)                            
-                                if clean_text(data['Quarantine Form']).lower() == 'yes':
+                                if clean_text(getData(data,'Quarantine Form')).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("Quarantine/Isolation")
                                     # Click on "Assmnts"
@@ -923,7 +930,7 @@ def main_loop():
                                     # A.1.
                                     send_text(driver, "linkCust_A_1", name_designation)
                                     # A.1.a.
-                                    send_text(driver, "linkCust_A_1a_dummy", get_string_date(data['Date of visit']))
+                                    send_text(driver, "linkCust_A_1a_dummy", get_string_date(getData(data,'Date of visit')))
                                     # A.2.b.
                                     send_click_pos(driver, "linkCust_A_2", 1)
                                     # A.3.e.
@@ -967,7 +974,7 @@ def main_loop():
                                     # print("Quarantine Form Completed")
                                     # t.sleep(3)
                                     # select_window(driver, 0)
-                                if clean_text(data['Standing Orders Form']).lower() == 'yes':
+                                if clean_text(getData(data,'Standing Orders Form')).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("Standing Orders 12 and Over")
                                     # Click on "Assmnts"
@@ -1064,7 +1071,7 @@ def main_loop():
                                     print("Standing Orders Form Completed")
                                     t.sleep(3)
                                     select_window(driver, 0)
-                                if clean_text(data['Assessment']).lower() == 'yes':
+                                if clean_text(getData(data,'Assessment')).lower() == 'yes':
                                     select_window(driver, 0)
                                     print("*Health Assessment Form Unaccompanied Children's Program Office of Refugee Resettlement (ORR) - V 2")
                                     # Click on "Assmnts"
@@ -1107,17 +1114,17 @@ def main_loop():
                                     if thread_stopped == True:
                                         break
 
-                                    send_text(driver, 'linkCust_A_1_2', str(data['telephone']))
+                                    send_text(driver, 'linkCust_A_1_2', str(getData(data,'telephone')))
 
                                     # Stop If Stop Button is pressed
                                     if thread_stopped == True:
                                         break
                                     send_text(driver, 'linkCust_A_2', md_do_pa_np)
                                     send_text(driver, 'linkCust_A_3', clinic_or_practice)
-                                    send_text(driver, 'linkCust_A_4', data['Healthcare Provider Street address, City or Town, State'])
+                                    send_text(driver, 'linkCust_A_4', getData(data,'Healthcare Provider Street address, City or Town, State'))
                                     # send_text(driver, 'linkCust_A_5_dummy', data['Date of visit'])
 
-                                    send_text(driver, "linkCust_A_5_dummy", get_string_date(data['Date of visit']))
+                                    send_text(driver, "linkCust_A_5_dummy", get_string_date(getData(data,'Date of visit')))
                                     # send_text(driver, 'linkCust_A_7', data['Program Name'])
                                     # send_text(driver, 'Cust_B_1', temp_c)
                                     # send_text(driver, 'linkCust_B_1a', hr)
@@ -1313,7 +1320,7 @@ def main_loop():
                                     try:
                                         # No se encontro
                                         h16=driver.find_element_by_id('linkCust_H_16')
-                                        ActionChains(driver).move_to_element( h16).click( h16).send_keys(data['Additional Information']).perform()
+                                        ActionChains(driver).move_to_element( h16).click( h16).send_keys(getData(data,'Additional Information')).perform()
                                     except:
                                         pass
 
@@ -1613,7 +1620,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.7")
+        self.label2.configure(background='#ffffff', text="Version 1.8")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

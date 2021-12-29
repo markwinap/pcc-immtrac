@@ -428,10 +428,10 @@ def main_loop():
                                 if clean_text(getData(data,'Varicella')).lower() == 'yes':
                                     print('Add Varicella')
                                     vaccines_list.append('Varicella')
-                                if clean_text(getData(data,'SARS-COV-2')).lower() == 'yes' and clean_text(getData(data,'Dose 2')).lower() != 'yes':
+                                if clean_text(getData(data,'SARS-COV-2')).lower() == 'yes':
                                     print('Add SARS-COV-2')
                                     vaccines_list.append('SARS-COV-2')
-                                if clean_text(getData(data,'SARS-COV-2 < 12')).lower() == 'yes' and clean_text(getData(data,'Dose 2')).lower() != 'yes':
+                                if clean_text(getData(data,'SARS-COV-2 < 12')).lower() == 'yes':
                                     print('Add SARS-COV-2 < 12')
                                     vaccines_list.append('SARS-COV-2 < 12')
 
@@ -491,7 +491,7 @@ def main_loop():
                                     send_click(driver, "cancelButton")
                                     # Todo: Marco Martinez - Click on cancel button
 
-                                if clean_text(getData(data,'Dose 2')).lower() == 'yes':
+                                if clean_text(getData(data,'Dose 2 SARS-COV-2')).lower() == 'yes' or clean_text(getData(data,'Dose 2 SARS-COV-2 < 12')).lower() == 'yes':
                                     print("Add SARS-COV-2 Dose 2")
                                     # Click on Immun tab
                                     click_link(driver, "Immun")
@@ -504,9 +504,9 @@ def main_loop():
                                     # Select popup window
                                     select_window(driver, -1)
                                     vaccines_list_dose = []
-                                    if clean_text(getData(data,'SARS-COV-2')).lower() == 'yes':
+                                    if clean_text(getData(data,'Dose 2 SARS-COV-2')).lower() == 'yes':
                                         vaccines_list_dose.append('SARS-COV-2')
-                                    if clean_text(getData(data,'SARS-COV-2 < 12')).lower() == 'yes':
+                                    if clean_text(getData(data,'Dose 2 SARS-COV-2 < 12')).lower() == 'yes':
                                         vaccines_list_dose.append('SARS-COV-2 < 12')
                                     
                                     for vacc in vaccines_list_dose:
@@ -1634,7 +1634,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.8")
+        self.label2.configure(background='#ffffff', text="Version 1.9")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

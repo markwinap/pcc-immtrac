@@ -494,6 +494,8 @@ def main_loop():
                                 if clean_text(getData(data,'Dose 2 SARS-COV-2')).lower() == 'yes' or clean_text(getData(data,'Dose 2 SARS-COV-2 < 12')).lower() == 'yes':
                                     print("Add SARS-COV-2 Dose 2")
                                     # Click on Immun tab
+                                    select_window(driver, 0)
+                                    t.sleep(1)
                                     click_link(driver, "Immun")
                                     immun=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[6]/a')
                                     ActionChains(driver).move_to_element(immun).click(immun).perform()

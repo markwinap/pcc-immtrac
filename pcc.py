@@ -275,7 +275,7 @@ def main_loop():
             dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
             print("date and time =", dt_string, '>>>>logging in  ')	
 
-            target_user_a = str(getData(data,'A#'))
+            target_user_a = clean_text(str(getData(data,'A#')))
             target_user_id = clean_text(str(getData(data,'userId')))
             targent_name = getData(data,'First Name') + ' ' + getData(data,'Last Name')
 

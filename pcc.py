@@ -84,7 +84,7 @@ def update_status(msg):
 
 def open_chrome():
     global driver
-    tkinter.messagebox.showinfo("Information", "Please log into your account using next opening driver. Then click on 'Start' button to start the automation.")
+    # tkinter.messagebox.showinfo("Information", "Please log into your account using next opening driver. Then click on 'Start' button to start the automation.")
     update_status("Opening Chrome..")
     options = Options()
     options.add_argument("start-maximized")
@@ -399,28 +399,40 @@ def main_loop():
                                 
                                 vaccines_list = []
                                 if clean_text(getData(data,'Influenza')).lower() == 'yes':
+                                    print('Add Influenza')
                                     vaccines_list.append('Influenza')
                                 if clean_text(getData(data,'Tdap')).lower() == 'yes':
+                                    print('Add Tdap')
                                     vaccines_list.append('Tdap')
                                 if clean_text(getData(data,'Td')).lower() == 'yes':
+                                    print('Add Td')
                                     vaccines_list.append('Td')
                                 if clean_text(getData(data,'Hepatitis A')).lower() == 'yes':
-                                    vaccines_list.append(data,'Hepatitis A')
+                                    print('Add Hepatitis A')
+                                    vaccines_list.append('Hepatitis A')
                                 if clean_text(getData(data,'Hepatitis B')).lower() == 'yes':
+                                    print('Add Hepatitis B')
                                     vaccines_list.append('Hepatitis B')
                                 if clean_text(getData(data,'HPV')).lower() == 'yes':
+                                    print('Add HPV')
                                     vaccines_list.append('HPV')
                                 if clean_text(getData(data,'IPV')).lower() == 'yes':
+                                    print('Add IPV')
                                     vaccines_list.append('IPV')
                                 if clean_text(getData(data,'Meningicoccal')).lower() == 'yes':
+                                    print('Add Meningicoccal')
                                     vaccines_list.append('Meningicoccal')
                                 if clean_text(getData(data,'MMR')).lower() == 'yes':
+                                    print('Add MMR')
                                     vaccines_list.append('MMR')
                                 if clean_text(getData(data,'Varicella')).lower() == 'yes':
+                                    print('Add Varicella')
                                     vaccines_list.append('Varicella')
                                 if clean_text(getData(data,'SARS-COV-2')).lower() == 'yes' and clean_text(getData(data,'Dose 2')).lower() != 'yes':
+                                    print('Add SARS-COV-2')
                                     vaccines_list.append('SARS-COV-2')
                                 if clean_text(getData(data,'SARS-COV-2 < 12')).lower() == 'yes' and clean_text(getData(data,'Dose 2')).lower() != 'yes':
+                                    print('Add SARS-COV-2 < 12')
                                     vaccines_list.append('SARS-COV-2 < 12')
 
                                 if len(vaccines_list) > 0:
@@ -439,7 +451,9 @@ def main_loop():
 
                                     for vacc in vaccines_list:
                                         wait_button(driver, "cancelButton", By.ID)
+                                        print("GET immunizations_list " + vacc)
                                         select_vacc = get_vaccine_by_name(vacc, immunizations_list)
+
                                         # Menu select "Immunization"
                                         t.sleep(1)
                                         print(select_vacc["Name"] + "-" + clean_text(str(select_vacc["Menu val"])))

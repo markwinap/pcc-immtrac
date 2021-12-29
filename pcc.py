@@ -310,13 +310,13 @@ def main_loop():
             # Select pop-up window "Global Resident Search -- All Residents"
             t.sleep(5)
             try:
-                driver.switch_to.window(driver.window_handles[-1])
+                select_window(driver, -1)
                 print("Select pop-up windo - Global Resident Search")
             except:
                 pass
 
             try:
-                driver.switch_to_window(driver.window_handles[-1])
+                select_window(driver, -1)
                 print("Select pop-up windo - Global Resident Search2")
             except:
                 pass

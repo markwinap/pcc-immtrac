@@ -309,17 +309,8 @@ def main_loop():
 
             # Select pop-up window "Global Resident Search -- All Residents"
             t.sleep(5)
-            try:
-                select_window(driver, -1)
-                print("Select pop-up windo - Global Resident Search")
-            except:
-                pass
-
-            try:
-                select_window(driver, -1)
-                print("Select pop-up windo - Global Resident Search2")
-            except:
-                pass
+            select_window(driver, -1)
+            print("Select pop-up windo - Global Resident Search")
 
             try:
                 driver.find_element(By.XPATH, '//a[contains(text(),"Current"]').click()

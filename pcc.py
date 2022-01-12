@@ -471,7 +471,7 @@ def main_loop():
                                         # Set date of vaccine
                                         send_text(driver, "dateGiven_dummy", get_string_date(getData(data,'Date of visit')))
                                         # Set notes
-                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(getData(data,'Date of visit')) + "\n" + "Funding: " + select_vacc["Funding"]
+                                        notes =  select_vacc["Name"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + str(select_vacc["Lot#"]) + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(getData(data,'Date of visit')) + "\n" + "Funding: " + select_vacc["Funding"]
                                         send_text_name(driver, "notes", notes)
                                         # Click on button "Save & New"
                                         click_button_value(driver, "Save & New")
@@ -530,7 +530,7 @@ def main_loop():
                                         # Set date of vaccine
                                         send_text(driver, "dateGiven_dummy", get_string_date(getData(data,'Date of visit')))
                                         # Set notes
-                                        notes =  select_vacc["Name"] + select_vacc["Prefix"] + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + select_vacc["Lot#"] + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(getData(data,'Date of visit')) + "\n" + "Funding: " + select_vacc["Funding"]
+                                        notes =  select_vacc["Name"]  + "\n" + select_vacc["Zone"] + "\n" + "Lot# " + str(select_vacc["Lot#"]) + "\n" + "Exp: " + get_string_date(select_vacc["Exp"]) + "\n" + "Manufacturer: " + select_vacc["Manufacturer"] + "\n" + "VIS Date: " + get_string_date(vis_date) + "\n" + "VIS Given: " + get_string_date(getData(data,'Date of visit')) + "\n" + "Funding: " + select_vacc["Funding"]
                                         send_text_name(driver, "notes", notes)
                                         # Click on button "Save & New"
                                         click_button_value(driver, "Save & New")

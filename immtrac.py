@@ -298,6 +298,7 @@ def open_chrome():
     driver.get("https://immtrac.dshs.texas.gov/TXPRD/portalHeader.do")
 
 def main_loop():
+    select_window(driver, 0)
     # read excel
     global driver,patient_data_sheet,status_string, options, selected_sheet
 
@@ -860,7 +861,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.9")
+        self.label2.configure(background='#ffffff', text="Version 1.9.1")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

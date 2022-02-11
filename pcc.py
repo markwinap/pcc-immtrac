@@ -281,6 +281,8 @@ def main_loop():
 
             print("Processing - " + target_user_id + "-" + target_user_a + "-" + targent_name)
             select_window(driver, 0)
+            t.sleep(1)
+            select_window(driver, 0)
             # overwrite_file()
             # Stop If Stop Button is pressed
             if thread_stopped == True:
@@ -309,6 +311,8 @@ def main_loop():
 
             # Select pop-up window "Global Resident Search -- All Residents"
             t.sleep(5)
+            select_window(driver, -1)
+            t.sleep(1)
             select_window(driver, -1)
             print("Select pop-up windo - Global Resident Search")
 
@@ -439,6 +443,8 @@ def main_loop():
                                     wait_window(driver)
                                     # Select popup window
                                     select_window(driver, -1)
+                                    t.sleep(1)
+                                    select_window(driver, -1)
 
                                     for vacc in vaccines_list:
                                         wait_button(driver, "cancelButton", By.ID)
@@ -455,6 +461,8 @@ def main_loop():
                                             wait_window(driver)
                                             # Select popup window
                                             select_window(driver, -1)
+                                            t.sleep(1)
+                                            select_window(driver, -1)
                                             send_text(driver, "searchText", select_vacc["Search Name"])
                                             send_enter(driver, "searchText")
                                             t.sleep(1)
@@ -463,7 +471,11 @@ def main_loop():
                                                 vac_res[int(select_vacc["Search Pos"])].find_elements(By.TAG_NAME, 'a')[0].click()
                                                 t.sleep(0.5)
                                                 select_window(driver, 0)
+                                                t.sleep(1)
+                                                select_window(driver, 0)
                                                 t.sleep(0.5)
+                                                select_window(driver, -1)
+                                                t.sleep(1)
                                                 select_window(driver, -1)
                                         # Menu select "Given"
                                         select_menu_name(driver, "consentGiven", "Y")
@@ -478,6 +490,8 @@ def main_loop():
                                         t.sleep(2)
                                     t.sleep(1)
                                     select_window(driver, -1)
+                                    t.sleep(1)
+                                    select_window(driver, -1)
                                     wait_button(driver, "cancelButton", By.ID)
                                     send_click(driver, "cancelButton")
                                     # Todo: Marco Martinez - Click on cancel button
@@ -485,6 +499,8 @@ def main_loop():
                                 if clean_text(getData(data,'Dose 2 SARS-COV-2')).lower() == 'yes' or clean_text(getData(data,'Dose 2 SARS-COV-2 < 12')).lower() == 'yes':
                                     print("Add SARS-COV-2 Dose 2")
                                     # Click on Immun tab
+                                    select_window(driver, 0)
+                                    t.sleep(1)
                                     select_window(driver, 0)
                                     t.sleep(1)
                                     click_link(driver, "Immun")
@@ -495,6 +511,8 @@ def main_loop():
                                     t.sleep(2)
                                     wait_window(driver)
                                     # Select popup window
+                                    select_window(driver, -1)
+                                    t.sleep(1)
                                     select_window(driver, -1)
                                     vaccines_list_dose = []
                                     if clean_text(getData(data,'Dose 2 SARS-COV-2')).lower() == 'yes':
@@ -514,6 +532,8 @@ def main_loop():
                                             wait_window(driver)
                                             # Select popup window
                                             select_window(driver, -1)
+                                            t.sleep(1)
+                                            select_window(driver, -1)
                                             send_text(driver, "searchText", select_vacc["Search Name"])
                                             send_enter(driver, "searchText")
                                             t.sleep(1)
@@ -522,7 +542,11 @@ def main_loop():
                                                 vac_res[int(select_vacc["Search Pos"])].find_elements(By.TAG_NAME, 'a')[0].click()
                                                 t.sleep(0.5)
                                                 select_window(driver, 0)
+                                                t.sleep(1)
+                                                select_window(driver, 0)
                                                 t.sleep(0.5)
+                                                select_window(driver, -1)
+                                                t.sleep(1)
                                                 select_window(driver, -1)
                                         # Menu select "Given"
                                         select_menu_name(driver, "consentGiven", "Y")
@@ -537,12 +561,16 @@ def main_loop():
                                         t.sleep(2)
                                     t.sleep(1)
                                     select_window(driver, -1)
+                                    t.sleep(1)
+                                    select_window(driver, -1)
                                     wait_button(driver, "cancelButton", By.ID)
                                     send_click(driver, "cancelButton")
                                     # Todo: Marco Martinez - Click on cancel button
 
                                     
                                 if clean_text(getData(data,'Initial Medical Form')).lower() == 'yes':
+                                    select_window(driver, 0)
+                                    t.sleep(1)
                                     select_window(driver, 0)
                                     print("*Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3 ")
                                     # Click on "Assmnts"
@@ -603,7 +631,7 @@ def main_loop():
                                         pass
                                     try:
                                         driver.find_element(By.ID, 'linkCust_A_3').clear()
-                                        driver.find_element(By.ID, 'linkCust_A_3').send_keys(clinic_or_practice)
+                                        driver.find_element(By.ID, 'linkCust_A_3').send_keys(getData(data,'clinicname') or clinic_or_practice)
                                     except:
                                         pass
                                     try:
@@ -891,6 +919,8 @@ def main_loop():
                                     t.sleep(3)                            
                                 if clean_text(getData(data,'Quarantine Form')).lower() == 'yes':
                                     select_window(driver, 0)
+                                    t.sleep(1)
+                                    select_window(driver, 0)
                                     print("Quarantine/Isolation")
                                     # Click on "Assmnts"
                                     assessment=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[9]/a')
@@ -967,21 +997,19 @@ def main_loop():
                                     t.sleep(5)
                                     select_window(driver, -1)
                                     t.sleep(1)
+                                    select_window(driver, -1)
+                                    t.sleep(1)
                                     send_text_name(driver, "pw", password)
                                     send_click(driver, "saveButton")
                                     print("Standing Orders Form Completed")
                                     t.sleep(3)
                                     select_window(driver, 0)
+                                    t.sleep(1)
+                                    select_window(driver, 0)
 
-
-                                    # select_window(driver, -1)
-                                    # t.sleep(1)
-                                    # send_text_name(driver, "pw", password)
-                                    # send_click(driver, "saveButton")
-                                    # print("Quarantine Form Completed")
-                                    # t.sleep(3)
-                                    # select_window(driver, 0)
                                 if clean_text(getData(data,'Standing Orders Form')).lower() == 'yes':
+                                    select_window(driver, 0)
+                                    t.sleep(1)
                                     select_window(driver, 0)
                                     print("Standing Orders 12 and Over")
                                     # Click on "Assmnts"
@@ -1073,12 +1101,18 @@ def main_loop():
                                     t.sleep(5)
                                     select_window(driver, -1)
                                     t.sleep(1)
+                                    select_window(driver, -1)
+                                    t.sleep(1)
                                     send_text_name(driver, "pw", password)
                                     send_click(driver, "saveButton")
                                     print("Standing Orders Form Completed")
                                     t.sleep(3)
                                     select_window(driver, 0)
+                                    t.sleep(1)
+                                    select_window(driver, 0)
                                 if clean_text(getData(data,'Assessment')).lower() == 'yes':
+                                    select_window(driver, 0)
+                                    t.sleep(1)
                                     select_window(driver, 0)
                                     print("*Health Assessment Form Unaccompanied Children's Program Office of Refugee Resettlement (ORR) - V 2")
                                     # Click on "Assmnts"
@@ -1102,6 +1136,8 @@ def main_loop():
                                     # Select pop-up window "Reasons for Assessment"
                                     # Click on "save" button - value="Save"
                                     select_window(driver, -1)
+                                    t.sleep(1)
+                                    select_window(driver, -1)
                                     saveeee=driver.find_element_by_xpath('/html/body/form/div[2]/input[1]')
                                     ActionChains(driver).move_to_element(saveeee).click(saveeee).perform()
 
@@ -1111,6 +1147,8 @@ def main_loop():
 
                                     t.sleep(5)
                                     # Return to main window
+                                    select_window(driver, 0)
+                                    t.sleep(1)
                                     select_window(driver, 0)
                                     t.sleep(1)
 
@@ -1127,7 +1165,7 @@ def main_loop():
                                     if thread_stopped == True:
                                         break
                                     send_text(driver, 'linkCust_A_2', md_do_pa_np)
-                                    send_text(driver, 'linkCust_A_3', clinic_or_practice)
+                                    send_text(driver, 'linkCust_A_3', getData(data,'clinicname') or clinic_or_practice)
                                     send_text(driver, 'linkCust_A_4', getData(data,'Healthcare Provider Street address, City or Town, State'))
                                     # send_text(driver, 'linkCust_A_5_dummy', data['Date of visit'])
 
@@ -1521,6 +1559,8 @@ def main_loop():
                     print("NOT FOUND - " + target_user_id + "-" + target_user_a + "-" + targent_name)
                     write_file_data(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "," + str(target_user_id) + "," + str(target_user_a) + "," + targent_name + "\n")
                     driver.close()
+                    select_window(driver, 0)
+                    t.sleep(1)
                     select_window(driver, 0)
                     continue
             #except:

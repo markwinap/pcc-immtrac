@@ -112,7 +112,6 @@ def wait_window(d):
         print(e)
         pass
 
-
 def send_text(d, el, data):
     try:
         d.find_element(By.ID, el).clear()
@@ -271,6 +270,7 @@ def main_loop():
     # Loop through patient list
     for data in imm_list:
         try:
+            driver.refresh()
             now = datetime.now()
             dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
             print("date and time =", dt_string, '>>>>logging in  ')	

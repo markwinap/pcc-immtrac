@@ -1494,7 +1494,9 @@ def main_loop():
                                 #         pass
 
 
-
+                                t.sleep(1)
+                                select_window(driver, 0)
+                                print("END - USER EDIT")
                                 ## END - USER EDIT
                                 break
                             else:

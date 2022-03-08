@@ -271,6 +271,7 @@ def main_loop():
     for data in imm_list:
         try:
             driver.refresh()
+            t.sleep(2)
             now = datetime.now()
             dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
             print("date and time =", dt_string, '>>>>logging in  ')	

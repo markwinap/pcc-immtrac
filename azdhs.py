@@ -172,7 +172,7 @@ def send_click_by_value(d, el):
 
 def send_click_name(d, el):
     try:
-        d.find_elements(By.NAME, el).click()
+        d.find_element(By.NAME, el).click()
     except Exception as e:
         print(e)
         pass
@@ -251,7 +251,6 @@ def select_menu_name_text(d, name, value):
     except Exception as e:
         print(e)
         pass
-
 
 def overwrite_file():
     try:
@@ -338,10 +337,17 @@ def main_loop():
             wait_button(driver, "clearButton", By.ID)
             send_click(driver, "clearButton")
 
+            if thread_stopped == True:
+                break
+
             # Personal Info
             send_text(driver, "patientFirstName", getData(data,'First Name'))
             send_text(driver, "patientLastName", getData(data,'Last Name'))
             send_text(driver, "patientBirthDate", getData(data,'Last Name'))
+
+            if thread_stopped == True:
+                break
+
             # Birth Date
             b_day = pd.Timestamp(getData(data,'Birth Date'))
             send_text(driver, "patientBirthDate", b_day.strftime("%m/%d/%Y"))
@@ -360,18 +366,30 @@ def main_loop():
             t.sleep(1)
 
 
+            if thread_stopped == True:
+                break
+
             send_click(driver, "addPatientCheckbox")
             send_click(driver, "searchButton")
+
+            if thread_stopped == True:
+                break            
 
             wait_button(driver, "addPatientButton", By.ID)
             send_click(driver, "addPatientButton")
 
             wait_button(driver, "saveButto", By.ID)
 
+            if thread_stopped == True:
+                break            
+
             #Gender FEMALE MALE  OTHER UNKNOWN
             select_menu_name_text(driver, "gender_code", getData(data,'Gender').upper())
             select_menu_name_text(driver, "vfc_eligible_code", "State Program Eligibility")
             send_click(driver, "aCommitButton")
+
+            if thread_stopped == True:
+                break
 
             dismiss_alert(driver)
             send_click(driver, "gCommitButton")
@@ -381,7 +399,8 @@ def main_loop():
 
             wait_button(driver, "editHighRiskCategoriesButton", By.ID)
 
-
+            if thread_stopped == True:
+                break
             
             vaccines_list = []
             if clean_text(getData(data,'Influenza')).lower() == 'yes':
@@ -429,27 +448,75 @@ def main_loop():
 
                 for vacc in vaccines_list:
 
+                    if thread_stopped == True:
+                        break
                     select_vacc = get_vaccine_by_name(vacc, immunizations_list)
+                    print("Add Vaccine Date")
+                    print(select_vacc["Name"] + "-" + clean_text(str(select_vacc["Menu val"])))
 
                     # Date Administrated
                     v_day = pd.Timestamp(getData(data,'Date of visit'))
                     send_text(driver, select_vacc["azdhsId"], v_day.strftime("%m/%d/%Y"))
                     send_enter(driver, select_vacc["azdhsId"])
 
+                if thread_stopped == True:
+                    break
                 # Save
                 send_click_by_value(driver, "Add Administered")
 
-                
+                #  VFC Eligibility Update
+                t.sleep(2)
                 wait_button(driver, "vfcEligibilityUpdateForm_0", By.ID)
-                select_menu_name_text(driver, "vfcEligibilityUpdateForm_vfcCode", "State Program Eligibility")
+                select_menu(driver, "vfcEligibilityUpdateForm_vfcCode", "34")
                 send_click(driver, "vfcEligibilityUpdateForm_0")
 
+                t.sleep(2)
                 wait_button(driver, '//input[@value="Save"]', By.XPATH)
                 for idx, vacc in enumerate(vaccines_list):
-                    send_click(driver, "vfcEligibilityUpdateForm_" + idx)
+
+                    if thread_stopped == True:
+                        break                    
+                    select_vacc = get_vaccine_by_name(vacc, immunizations_list)
+                    print("Add Vaccine Manufacturer")
+                    print(select_vacc["Name"] + "-" + clean_text(str(select_vacc["Menu val"])))
+
+                    # Click on Manufacturer
+                    print("manufacturerName_" + str(idx + 1))
+                    send_click_name(driver, "manufacturerName_" + str(idx + 1))
                     wait_window(driver)
+                    t.sleep(2)
                     select_window(driver, -1)
-                t.sleep(1)
+
+                    current_manufacture=driver.find_elements(By.TAG_NAME, 'tr')
+                    manufacture_len=len(current_manufacture)
+                    print(manufacture_len)
+                    if manufacture_len > 4:
+
+                        if thread_stopped == True:
+                            break
+                        print("Select Manufacture")
+                        not_found = True
+                        for x in range(manufacture_len - 4):
+                            manufacture = current_manufacture[x + 2].find_elements(By.TAG_NAME, 'td')
+                            if(select_vacc["LotAzdhs"] == manufacture[2].text):
+                                select = manufacture[0].find_element(By.TAG_NAME, 'input')
+                                ActionChains(driver).move_to_element(select).click(select).perform()
+                                break
+                        if(not_found):
+                            print("NOT FOUND - " + select_vacc["Name"])
+                            send_click_by_value(driver, "Cancel")
+                    else:
+                        print("NO ITEMS - " + select_vacc["Name"])
+                        send_click_by_value(driver, "Cancel")
+                    # Go backa to main window
+                    select_window(driver, 0)
+
+                if thread_stopped == True:
+                    break
+                # Save Button
+                send_click_by_value(driver, "Save")
+                t.sleep(5)
+                wait_button(driver, '//input[@value="Add Administered"]', By.XPATH)
 
             t.sleep(5)
 

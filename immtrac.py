@@ -650,13 +650,17 @@ def main_loop():
                     # Vaccine Eligibility - Error Excel missing options
                     select_menu_name_text(driver, "vaccineEligibilityCode[" + str(xx) + "]", "V03-No Insurance")
                     # Prescribed By -  Default Juan Garcia
+                    t.sleep(0.5)
                     select_5 = Select(driver.find_element_by_xpath("//select[@name='administeredById[" + str(xx) + "]']"))
                     select_5.select_by_index(1)
                     # Manufacturer
+                    t.sleep(0.5)
                     select_menu_name_text(driver,  "manufacturerId[" + str(xx) + "]", get_vaccine_by_name(vaccine_list_to_add[xx],imm_list)['ManufacturerImmtrac'])
                     # Body Site
+                    t.sleep(0.5)
                     select_menu_name_text(driver,  "bodySiteCode[" + str(xx) + "]", get_vaccine_by_name(vaccine_list_to_add[xx],imm_list)['Zone'].upper() + ' ARM')
                     # Route
+                    t.sleep(0.5)
                     select_menu_name_text(driver,  "adminRouteCode[" + str(xx) + "]", get_vaccine_by_name(vaccine_list_to_add[xx],imm_list)['Route'])
 
                 except Exception as e:
@@ -723,10 +727,13 @@ def main_loop():
                         select_5 = Select(driver.find_element_by_xpath("//select[@name='administeredById[" + str(xx - 6) + "]']"))
                         select_5.select_by_index(1)
                         # Manufacturer
+                        t.sleep(0.5)
                         select_menu_name_text(driver,  "manufacturerId[" + str(xx - 6) + "]", get_vaccine_by_name(vaccine_list_to_add[xx],imm_list)['ManufacturerImmtrac'])
                         # Body Site
+                        t.sleep(0.5)
                         select_menu_name_text(driver,  "bodySiteCode[" + str(xx - 6) + "]", get_vaccine_by_name(vaccine_list_to_add[xx],imm_list)['Zone'].upper() + ' ARM')
                         # Route
+                        t.sleep(0.5)
                         select_menu_name_text(driver,  "adminRouteCode[" + str(xx - 6) + "]", get_vaccine_by_name(vaccine_list_to_add[xx],imm_list)['Route'])
                     except Exception as e:
                         # log error

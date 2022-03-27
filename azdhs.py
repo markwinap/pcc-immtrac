@@ -25,7 +25,7 @@ import traceback
 driver = None
 patient_data_sheet = None
 thread_stopped = False
-get_e_timeout = 20
+get_e_timeout = 10
 current_users = None
 user_name = None
 password = None
@@ -76,6 +76,12 @@ other_medical="Contact with and (suspected) exposure to COVID-19."
 
 # Strings
 specify_travel = "The minor is medically cleared to travel only if all covid quarantine clearance criteria have been met and no other concerns requiring medical follow up and/or specialty follow-up have been identified in subsequent visits."
+
+def getNumber(txt):
+  try:
+    return int(txt)
+  except Exception as e:
+    return int(float(txt))
 
 def dismiss_alert(d):
     try:
@@ -384,7 +390,7 @@ def main_loop():
                 break            
 
             #Gender FEMALE MALE  OTHER UNKNOWN
-            select_menu_name_text(driver, "gender_code", getData(data,'Gender').upper())
+            select_menu_name_text(driver, "gender_code", getData(data,'Gender').strip().upper())
             select_menu_name_text(driver, "vfc_eligible_code", "State Program Eligibility")
             send_click(driver, "aCommitButton")
 
@@ -495,16 +501,24 @@ def main_loop():
                         if thread_stopped == True:
                             break
                         print("Select Manufacture")
-                        not_found = True
+                        lot_options = []
+                        pos = 0
                         for x in range(manufacture_len - 4):
-                            manufacture = current_manufacture[x + 2].find_elements(By.TAG_NAME, 'td')
-                            if(select_vacc["LotAzdhs"] == manufacture[2].text):
-                                select = manufacture[0].find_element(By.TAG_NAME, 'input')
-                                ActionChains(driver).move_to_element(select).click(select).perform()
-                                break
-                        if(not_found):
-                            print("NOT FOUND - " + select_vacc["Name"])
-                            send_click_by_value(driver, "Cancel")
+                            row = current_manufacture[x + 2].find_elements(By.TAG_NAME, 'td')
+                            available = getNumber(row[6].text)
+                            print("available: " + str(available))
+                            lot_options.append(available)
+
+                        largest_number = lot_options[0]
+                        for i in range(len(lot_options)):
+                            if lot_options[i] > largest_number:
+                                largest_number = lot_options[i]
+                                pos = i
+                        print("largest_number: " + str(largest_number))
+                        print("pos: " + str(pos))
+                        manufacture = current_manufacture[pos + 2].find_elements(By.TAG_NAME, 'td')
+                        select = manufacture[0].find_element(By.TAG_NAME, 'input')
+                        ActionChains(driver).move_to_element(select).click(select).perform()
                     else:
                         print("NO ITEMS - " + select_vacc["Name"])
                         send_click_by_value(driver, "Cancel")
@@ -558,12 +572,12 @@ class NewprojectApp:
             global thread_stopped, user_name, password, selected_sheet
             thread_stopped = False
             # user_name = self.e1a.get()
-            password = self.e2a.get()
+            # password = self.e2a.get()
 
-            print('###############')
+            # print('###############')
             # print(user_name)
-            print(password)
-            print('###############')
+            # print(password)
+            # print('###############')
 
             # Create new thread target automation
             thread_x = Thread(target=main_loop, args=[])
@@ -589,11 +603,11 @@ class NewprojectApp:
         # self.e1a.pack()
 
 
-        self.e2 = tk.Label(self.frame2)
-        self.e2.configure(background='#ffffff', text="Password")
-        self.e2.pack()
-        self.e2a = tk.Entry(self.frame2)
-        self.e2a.pack()
+        # self.e2 = tk.Label(self.frame2)
+        # self.e2.configure(background='#ffffff', text="Password")
+        # self.e2.pack()
+        # self.e2a = tk.Entry(self.frame2)
+        # self.e2a.pack()
 
         # Open Chrome Button
         self.button5 = tk.Button(self.frame2)

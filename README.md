@@ -1,15 +1,6 @@
 # pcc-immtrac
  
-checando
+conda create --name trinity python=3.5
+conda activate trinity
 
-Initial Medical Form
-- *Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3
-
-Quarantine Form
-- Quarantine/Isolation
-
-Standing Orders Form
-- Standing Orders 12 and Over
-
-Assessment
-- *Health Assessment Form Unaccompanied Children's Program Office of Refugee Resettlement (ORR) - V 2
+pip install tkintertable selenium webdriver_manager pandas openpyxl xlrd

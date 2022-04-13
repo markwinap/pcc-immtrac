@@ -375,19 +375,32 @@ def main_loop():
             if thread_stopped == True:
                 break
 
-            send_click(driver, "addPatientCheckbox")
+            # WIP
+            updateUSer = clean_text(str(getData(data,'SIISID')))
+            if (updateUSer == "") or (updateUSer == "0"):
+                send_click(driver, "addPatientCheckbox")
+                wait_button(driver, "addPatientButton", By.ID)
+                send_click(driver, "addPatientButton")
+                wait_button(driver, "saveButto", By.ID)
+            else:
+                print("Update Patient " + updateUSer)
+                #tableSearchResultsSortedThirdCol
+                patientResults = driver.find_element(By.ID, "tableSearchResultsSortedThirdCol").find_elements(By.TAG_NAME, 'tr')
+                
+                print("Results " + str(len(patientResults)))
+                for i in range(len(patientResults)):
+                    row = patientResults[i].find_elements(By.TAG_NAME, 'td')
+                    print("Found ID " + clean_text(row[4].text))
+                    patientId = getNumber(clean_text(row[4].text))
+                    print("Patient ID " + str(patientId))
+                    if patientId == getNumber(updateUSer):
+                        patientResults[i].click()
+                        break
             send_click(driver, "searchButton")
 
-            if thread_stopped == True:
-                break            
-
-            wait_button(driver, "addPatientButton", By.ID)
-            send_click(driver, "addPatientButton")
-
-            wait_button(driver, "saveButto", By.ID)
 
             if thread_stopped == True:
-                break            
+                break
 
             #Gender FEMALE MALE  OTHER UNKNOWN
             select_menu_name_text(driver, "gender_code", getData(data,'Gender').strip().upper())

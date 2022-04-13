@@ -371,10 +371,10 @@ def main_loop():
             send_enter(driver, "addressZipCode")
             t.sleep(1)
 
-
+            send_click(driver, "searchButton")
             if thread_stopped == True:
                 break
-
+            
             # WIP
             updateUSer = clean_text(str(getData(data,'SIISID')))
             if (updateUSer == "") or (updateUSer == "0"):
@@ -382,6 +382,23 @@ def main_loop():
                 wait_button(driver, "addPatientButton", By.ID)
                 send_click(driver, "addPatientButton")
                 wait_button(driver, "saveButto", By.ID)
+
+                if thread_stopped == True:
+                    break
+
+                #Gender FEMALE MALE  OTHER UNKNOWN
+                select_menu_name_text(driver, "gender_code", getData(data,'Gender').strip().upper())
+                select_menu_name_text(driver, "vfc_eligible_code", "State Program Eligibility")
+                send_click(driver, "aCommitButton")
+
+                if thread_stopped == True:
+                    break
+
+                dismiss_alert(driver)
+                send_click(driver, "gCommitButton")
+                dismiss_alert(driver)
+                # Save
+                send_click(driver, "saveButton")
             else:
                 print("Update Patient " + updateUSer)
                 #tableSearchResultsSortedThirdCol
@@ -389,32 +406,13 @@ def main_loop():
                 
                 print("Results " + str(len(patientResults)))
                 for i in range(len(patientResults)):
-                    row = patientResults[i].find_elements(By.TAG_NAME, 'td')
+                    row = patientResults[i + 1 ].find_elements(By.TAG_NAME, 'td')
                     print("Found ID " + clean_text(row[4].text))
                     patientId = getNumber(clean_text(row[4].text))
                     print("Patient ID " + str(patientId))
                     if patientId == getNumber(updateUSer):
-                        patientResults[i].click()
+                        patientResults[i + 1].click()
                         break
-            send_click(driver, "searchButton")
-
-
-            if thread_stopped == True:
-                break
-
-            #Gender FEMALE MALE  OTHER UNKNOWN
-            select_menu_name_text(driver, "gender_code", getData(data,'Gender').strip().upper())
-            select_menu_name_text(driver, "vfc_eligible_code", "State Program Eligibility")
-            send_click(driver, "aCommitButton")
-
-            if thread_stopped == True:
-                break
-
-            dismiss_alert(driver)
-            send_click(driver, "gCommitButton")
-            dismiss_alert(driver)
-            # Save
-            send_click(driver, "saveButton")
 
             wait_button(driver, "editHighRiskCategoriesButton", By.ID)
 
@@ -475,8 +473,19 @@ def main_loop():
 
                     # Date Administrated
                     v_day = pd.Timestamp(getData(data,'Date of visit'))
-                    send_text(driver, select_vacc["azdhsId"], v_day.strftime("%m/%d/%Y"))
-                    send_enter(driver, select_vacc["azdhsId"])
+                    pos = 0
+                    for d in range(5):
+                        pos = d
+                        try:
+                            found = driver.find_elements(By.ID, select_vacc["azdhsId"] + str(d))
+                            if len(found) > 0:
+                                print("Found Space on " + select_vacc["azdhsId"] + str(pos))
+                                break
+                        except Exception as e:
+                            pass
+                        
+                    send_text(driver, select_vacc["azdhsId"] + str(pos), v_day.strftime("%m/%d/%Y"))
+                    send_enter(driver, select_vacc["azdhsId"] + str(pos))
 
                 if thread_stopped == True:
                     break
@@ -646,7 +655,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.5")
+        self.label2.configure(background='#ffffff', text="Version 2.0")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

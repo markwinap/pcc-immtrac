@@ -379,6 +379,12 @@ def main_loop():
             updateUSer = clean_text(str(getData(data,'SIISID')))
             if (updateUSer == "") or (updateUSer == "0"):
                 send_click(driver, "addPatientCheckbox")
+
+                wait_button(driver, "searchButton", By.ID)
+                send_click(driver, "searchButton")
+                if thread_stopped == True:
+                    break
+
                 wait_button(driver, "addPatientButton", By.ID)
                 send_click(driver, "addPatientButton")
                 wait_button(driver, "saveButto", By.ID)

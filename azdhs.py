@@ -19,6 +19,7 @@ import tkinter.messagebox
 from tkinter import filedialog as fd
 from threading import Thread
 import traceback
+import re
 
 
 # Global Variables
@@ -294,6 +295,20 @@ def getData(obj , name):
     print(e)
     return ""
 
+def getWordChars(str):
+    try:
+        return re.sub('[^\w]', '', str)
+    except Exception as e:
+        print(e)
+        return ""
+
+def getNumbers(str):
+    try:
+        return re.sub('[^0-9.]', '', str)
+    except Exception as e:
+        print(e)
+        return ""
+
 def selectSheet(sheet):
     global selected_sheet
     selected_sheet = sheet
@@ -475,7 +490,28 @@ def main_loop():
                         break
                     select_vacc = get_vaccine_by_name(vacc, immunizations_list)
                     print("Add Vaccine Date")
-                    print(select_vacc["Name"] + "-" + clean_text(str(select_vacc["Menu val"])))
+                    print(select_vacc["Name"])
+
+                    wordChars = getWordChars(select_vacc["azdhsId"]).lower()
+
+                    print(wordChars)
+
+                    print("Find Position")
+
+
+                    vaccines_form = driver.find_element(By.ID, "vaccViewAdd")
+                    vaccines_tables = vaccines_form.find_elements(By.CLASS_NAME, 'historylight')
+
+                    # TODO
+
+                    row_number = 0
+                    for i in range(len(vaccines_tables)):
+                        if clean_text(vaccines_tables[i].text).lower() == wordChars:
+                            print("Found")
+                            print(vaccines_tables[i].text)
+                            print(vaccines_tables[i].get_attribute('id'))
+                            row_number = getNumbers(vaccines_tables[i].get_attribute('id'))
+                            break
 
                     # Date Administrated
                     v_day = pd.Timestamp(getData(data,'Date of visit'))
@@ -483,15 +519,15 @@ def main_loop():
                     for d in range(5):
                         pos = d
                         try:
-                            found = driver.find_elements(By.ID, select_vacc["azdhsId"] + str(d))
+                            found = driver.find_elements(By.ID, "vacc" + row_number + "_" + str(d))
                             if len(found) > 0:
-                                print("Found Space on " + select_vacc["azdhsId"] + str(pos))
+                                print("Found Space on " + "vacc" + row_number + "_" + str(pos))
                                 break
                         except Exception as e:
                             pass
                         
-                    send_text(driver, select_vacc["azdhsId"] + str(pos), v_day.strftime("%m/%d/%Y"))
-                    send_enter(driver, select_vacc["azdhsId"] + str(pos))
+                    send_text(driver, "vacc" + row_number + "_" + str(pos), v_day.strftime("%m/%d/%Y"))
+                    send_enter(driver, "vacc" + row_number + "_" + str(pos))
 
                 if thread_stopped == True:
                     break

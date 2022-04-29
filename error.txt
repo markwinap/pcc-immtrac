@@ -1,1 +1,3 @@
-New
+New2022-04-28 22:28:45 - Can't convert 'int' object to str implicitly
+2022-04-28 22:32:38 - list index out of range
+2022-04-28 22:35:36 - list index out of range

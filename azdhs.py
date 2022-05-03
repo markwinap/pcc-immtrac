@@ -374,8 +374,8 @@ def main_loop():
             send_text(driver, "patientBirthDate", b_day.strftime("%m/%d/%Y"))
             send_enter(driver, "patientBirthDate")
 
-            send_text(driver, "guardianFirstName", getData(data,'Healthcare Provider Street address, City or Town, State'))
-            send_text(driver, "motherMaidenName", getData(data,'Healthcare Provider Street address, City or Town, State'))
+            send_text(driver, "guardianFirstName", getData(data,'Program Name'))
+            send_text(driver, "motherMaidenName", getData(data,'Program Name'))
             send_text(driver, "addressStreet", getData(data,'Street Address'))
 
             send_click(driver, "addressCountryCode_chzn")

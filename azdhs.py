@@ -557,6 +557,9 @@ def main_loop():
                     t.sleep(2)
                     select_window(driver, -1)
 
+                    lot_number = str(select_vacc["Lot#"])
+                    print("LOT# "  + lot_number)
+
                     current_manufacture=driver.find_elements(By.TAG_NAME, 'tr')
                     manufacture_len=len(current_manufacture)
                     print(manufacture_len)
@@ -566,23 +569,35 @@ def main_loop():
                             break
                         print("Select Manufacture")
                         lot_options = []
+                        not_found = True
                         pos = 0
                         for x in range(manufacture_len - 4):
                             row = current_manufacture[x + 2].find_elements(By.TAG_NAME, 'td')
-                            available = getNumber(row[6].text)
-                            print("available: " + str(available))
-                            lot_options.append(available)
+                            #available = getNumber(row[6].text)
+                            available = str(row[2].text)
+                            if lot_number == available:
+                                pos = x
+                                not_found = False
+                                print("Found Lot Number")
+                                break
+                        #     print("available: " + str(available))
+                        #     lot_options.append(available)
 
-                        largest_number = lot_options[0]
-                        for i in range(len(lot_options)):
-                            if lot_options[i] > largest_number:
-                                largest_number = lot_options[i]
-                                pos = i
-                        print("largest_number: " + str(largest_number))
-                        print("pos: " + str(pos))
-                        manufacture = current_manufacture[pos + 2].find_elements(By.TAG_NAME, 'td')
-                        select = manufacture[0].find_element(By.TAG_NAME, 'input')
-                        ActionChains(driver).move_to_element(select).click(select).perform()
+                        # largest_number = lot_options[0]
+                        # for i in range(len(lot_options)):
+                        #     if lot_options[i] > largest_number:
+                        #         largest_number = lot_options[i]
+                        #         pos = i
+                        #print("largest_number: " + str(largest_number))
+
+                        if not_found:
+                            print("Lot # Not Found")
+                            send_click_by_value(driver, "Cancel")
+                        else:
+                            print("pos: " + str(pos))
+                            manufacture = current_manufacture[pos + 2].find_elements(By.TAG_NAME, 'td')
+                            select = manufacture[0].find_element(By.TAG_NAME, 'input')
+                            ActionChains(driver).move_to_element(select).click(select).perform()
                     else:
                         print("NO ITEMS - " + select_vacc["Name"])
                         send_click_by_value(driver, "Cancel")

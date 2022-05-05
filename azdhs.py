@@ -20,7 +20,9 @@ from tkinter import filedialog as fd
 from threading import Thread
 import traceback
 import re
-
+import requests
+import socket
+import json
 
 # Global Variables
 driver = None
@@ -130,93 +132,119 @@ def send_text(d, el, data):
     try:
         d.find_element(By.ID, el).clear()
         d.find_element(By.ID, el).send_keys(data)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_blind_text(d, data):
     try:
         d.send_keys(data)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_text_name(d, el, data):
     try:
         d.find_element(By.NAME, el).clear()
         d.find_element(By.NAME, el).send_keys(data)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_click_pos(d, el, pos):
     try:
         d.find_elements(By.ID, el)[pos].click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_click_pos_by_class(d, el, pos):
     try:
         d.find_elements(By.CLASS_NAME, el)[pos].click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_click(d, el):
     try:
         d.find_element(By.ID, el).click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_click_by_value(d, el):
     try:
         d.find_element(By.XPATH, '//input[@value="' + el + '"]').click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_click_name(d, el):
     try:
         d.find_element(By.NAME, el).click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_enter(d, el):
     try:
         d.find_element(By.ID, el).send_keys(Keys.ENTER)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def send_blind_enter(d):
     try:
         d.send_keys(Keys.ENTER)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def click_link(d, el):
     try:
         d.find_element(By.XPATH, '//a[contains(text(),"' + el + '")]').click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def click_link_href(d, el):
     try:
         d.find_element(By.XPATH, '//a[@href="' + el + '"]').click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def click_button_value(d, el):
     try:
         d.find_element(By.XPATH, '//input[@value="' + el + '"]').click()
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def get_string_date(el):
@@ -231,32 +259,40 @@ def get_string_date(el):
 def select_window(d, pos):
     try:
         d.switch_to_window(d.window_handles[pos])
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def select_menu_name(d, name, value):
     try:
         s = Select(d.find_element(By.NAME, name))
         s.select_by_value(value)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def select_menu(d, id, value):
     try:
         s = Select(d.find_element(By.ID, id))
         s.select_by_value(value)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def select_menu_name_text(d, name, value):
     try:
         s = Select(d.find_element(By.NAME, name))
         s.select_by_visible_text(value)
+        return False
     except Exception as e:
         print(e)
+        return True
         pass
 
 def overwrite_file():
@@ -314,8 +350,23 @@ def selectSheet(sheet):
     selected_sheet = sheet
     print(selected_sheet)
 
+def sendRequest(subject, message, error = True):
+    try:
+        payload = {
+            "computer": socket.gethostname(),
+            "subject": subject,
+            "message": message,
+            "error": error
+        }
+        r = requests.post("https://2qpxr842pk.execute-api.us-east-1.amazonaws.com/Prod/post-sns-data", data=json.dumps(payload))
+        return r
+    except Exception as e:
+        print(e)
+        return ""
+
 def main_loop():
     # read excel
+    report = []
     global driver,patient_data_sheet, current_users, user_name, password, selected_sheet
 
     print("SELECTED SHEET " + selected_sheet)
@@ -346,7 +397,10 @@ def main_loop():
             print("Processing - " + target_user_id + "-" + target_user_a + "-" + targent_name)
             select_window(driver, 0)
             t.sleep(1)
-            select_window(driver, 0)
+            res = select_window(driver, 0)
+            if res:
+                sendRequest(targent_name, "Error: Could not switch to main window", True)
+                break
 
 
             driver.get("https://asiis.azdhs.gov/patient_search.jsp?direct=1")
@@ -362,7 +416,10 @@ def main_loop():
                 break
 
             # Personal Info
-            send_text(driver, "patientFirstName", getData(data,'First Name'))
+            res = send_text(driver, "patientFirstName", getData(data,'First Name'))
+            if res:
+                sendRequest(targent_name, "Error: Unable to enter first name", True)
+                break
             send_text(driver, "patientLastName", getData(data,'Last Name'))
             send_text(driver, "patientBirthDate", getData(data,'Last Name'))
 
@@ -371,7 +428,10 @@ def main_loop():
 
             # Birth Date
             b_day = pd.Timestamp(getData(data,'Birth Date'))
-            send_text(driver, "patientBirthDate", b_day.strftime("%m/%d/%Y"))
+            res = send_text(driver, "patientBirthDate", b_day.strftime("%m/%d/%Y"))
+            if res:
+                sendRequest(targent_name, "Error: Unable to enter birth date", True)
+                break
             send_enter(driver, "patientBirthDate")
 
             send_text(driver, "guardianFirstName", getData(data,'Program Name'))
@@ -386,14 +446,20 @@ def main_loop():
             send_enter(driver, "addressZipCode")
             t.sleep(1)
 
-            send_click(driver, "searchButton")
+            res = send_click(driver, "searchButton")
+            if res:
+                sendRequest(targent_name, "Error: Unable to click search button", True)
+                break
             if thread_stopped == True:
                 break
             
             # WIP
             updateUSer = clean_text(str(getData(data,'SIISID')))
             if (updateUSer == "") or (updateUSer == "0"):
-                send_click(driver, "addPatientCheckbox")
+                res = send_click(driver, "addPatientCheckbox")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to click patient checkbox", True)
+                    break
 
                 wait_button(driver, "searchButton", By.ID)
                 send_click(driver, "searchButton")
@@ -401,16 +467,29 @@ def main_loop():
                     break
 
                 wait_button(driver, "addPatientButton", By.ID)
-                send_click(driver, "addPatientButton")
+                res = send_click(driver, "addPatientButton")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to click add patient button", True)
+                    break
                 wait_button(driver, "saveButto", By.ID)
 
                 if thread_stopped == True:
                     break
 
                 #Gender FEMALE MALE  OTHER UNKNOWN
-                select_menu_name_text(driver, "gender_code", getData(data,'Gender').strip().upper())
-                select_menu_name_text(driver, "vfc_eligible_code", "State Program Eligibility")
-                send_click(driver, "aCommitButton")
+                res = select_menu_name_text(driver, "gender_code", getData(data,'Gender').strip().upper())
+                if res:
+                    sendRequest(targent_name, "Error: Unable to add gender information", True)
+                    break
+
+                res = select_menu_name_text(driver, "vfc_eligible_code", "State Program Eligibility")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to select State Program Eligibility", True)
+                    break
+                res = send_click(driver, "aCommitButton")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to click commit button", True)
+                    break
 
                 if thread_stopped == True:
                     break
@@ -419,7 +498,10 @@ def main_loop():
                 send_click(driver, "gCommitButton")
                 dismiss_alert(driver)
                 # Save
-                send_click(driver, "saveButton")
+                res = send_click(driver, "saveButton")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to click save button", True)
+                    break
             else:
                 print("Update Patient " + updateUSer)
                 #tableSearchResultsSortedThirdCol
@@ -502,8 +584,6 @@ def main_loop():
                     vaccines_form = driver.find_element(By.ID, "vaccViewAdd")
                     vaccines_tables = vaccines_form.find_elements(By.CLASS_NAME, 'historylight')
 
-                    # TODO
-
                     row_number = 0
                     for i in range(len(vaccines_tables)):
                         if clean_text(vaccines_tables[i].text).lower() == wordChars:
@@ -524,21 +604,36 @@ def main_loop():
                                 print("Found Space on " + "vacc" + row_number + "_" + str(pos))
                                 break
                         except Exception as e:
+                            print(e)
+                            sendRequest(targent_name, str(e), True)
                             pass
                         
-                    send_text(driver, "vacc" + row_number + "_" + str(pos), v_day.strftime("%m/%d/%Y"))
+                    res = send_text(driver, "vacc" + row_number + "_" + str(pos), v_day.strftime("%m/%d/%Y"))
+                    if res:
+                        sendRequest(targent_name, "Error: "  + select_vacc["Name"] + " Unable to add vacine date", True)
+                        break
+                    
                     send_enter(driver, "vacc" + row_number + "_" + str(pos))
 
                 if thread_stopped == True:
                     break
                 # Save
-                send_click_by_value(driver, "Add Administered")
+                res = send_click_by_value(driver, "Add Administered")
+                if res:
+                    sendRequest(targent_name, "Error: unable to click add administered", True)
+                    break
 
                 #  VFC Eligibility Update
                 t.sleep(2)
                 wait_button(driver, "vfcEligibilityUpdateForm_0", By.ID)
-                select_menu(driver, "vfcEligibilityUpdateForm_vfcCode", "34")
-                send_click(driver, "vfcEligibilityUpdateForm_0")
+                res = select_menu(driver, "vfcEligibilityUpdateForm_vfcCode", "34")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to select VFC code", True)
+                    break
+                res = send_click(driver, "vfcEligibilityUpdateForm_0")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to click VFC Eligibility", True)
+                    break
 
                 t.sleep(2)
                 wait_button(driver, '//input[@value="Save"]', By.XPATH)
@@ -552,7 +647,10 @@ def main_loop():
 
                     # Click on Manufacturer
                     print("manufacturerName_" + str(idx + 1))
-                    send_click_name(driver, "manufacturerName_" + str(idx + 1))
+                    res = send_click_name(driver, "manufacturerName_" + str(idx + 1))
+                    if res:
+                        sendRequest(targent_name, "Error: Unable to click vaccine manufacturer", True)
+                        break
                     wait_window(driver)
                     t.sleep(2)
                     select_window(driver, -1)
@@ -592,6 +690,7 @@ def main_loop():
 
                         if not_found:
                             print("Lot # Not Found")
+                            sendRequest(targent_name, "Error: Lot # Not Found " + lot_number, True)
                             send_click_by_value(driver, "Cancel")
                         else:
                             print("pos: " + str(pos))
@@ -600,6 +699,7 @@ def main_loop():
                             ActionChains(driver).move_to_element(select).click(select).perform()
                     else:
                         print("NO ITEMS - " + select_vacc["Name"])
+                        sendRequest(targent_name, "Error: No Vaccines Available - " + select_vacc["Name"], True)
                         send_click_by_value(driver, "Cancel")
                     # Go backa to main window
                     select_window(driver, 0)
@@ -607,7 +707,10 @@ def main_loop():
                 if thread_stopped == True:
                     break
                 # Save Button
-                send_click_by_value(driver, "Save")
+                res = send_click_by_value(driver, "Save")
+                if res:
+                    sendRequest(targent_name, "Error: Unable to click Save Button", True)
+                    break
                 t.sleep(5)
                 wait_button(driver, '//input[@value="Add Administered"]', By.XPATH)
 
@@ -615,10 +718,12 @@ def main_loop():
 
         except Exception as e:
             print(e)
+            sendRequest("System", str(e), True)
             with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "error.txt"), "a") as myfile:
                 myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " - " + str(e) + "\n")
             pass
     print("PROCESS COMPLETED")
+    sendRequest("System", "Process Completed", False)
 # Get
 def get_covid_vaccine_by_name(imm_list):
     return imm_list[len(imm_list)-1]
@@ -712,7 +817,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 3.0")
+        self.label2.configure(background='#ffffff', text="Version 4.0.0")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

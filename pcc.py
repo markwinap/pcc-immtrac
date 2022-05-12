@@ -682,9 +682,9 @@ def main_loop():
                                         driver.find_elements(By.ID, 'linkCust_B_4c')[0].click()
                                     except:
                                         pass
-                                    #  B.-5 (radio button)  - a. - No
+                                    #  B.-5 (radio button)  - a. - Yes
                                     try:
-                                        driver.find_elements(By.ID, 'linkCust_B_5')[0].click()
+                                        driver.find_elements(By.ID, 'linkCust_B_5')[1].click()
                                     except:
                                         pass
                                     #  B.-6 (radio button)  - a. - No
@@ -804,6 +804,13 @@ def main_loop():
                                         driver.find_elements(By.ID, 'linkCust_E_3')[1].click()
                                     except:
                                         pass
+                                    # E.4a - Nonconsensual Sexual Activity
+                                    try:
+                                        driver.find_element(By.ID, 'linkCust_E_4a').clear()
+                                        driver.find_element(By.ID, 'linkCust_E_4a').send_keys("Denied.")
+                                    except:
+                                        pass
+                                    
                                     # E.5 - Mental Health concerns ( ≤3 mos) - Denied, with no obvious sign/symptoms
                                     try:
                                         driver.find_elements(By.ID, 'linkCust_E_5')[1].click()
@@ -867,7 +874,7 @@ def main_loop():
                                     # H.13 - Medical Order
                                     try:
                                         driver.find_element(By.ID, 'linkCust_H_13').clear()
-                                        driver.find_element(By.ID, 'linkCust_H_13').send_keys("Contact with and (suspected) exposure to COVID-19")
+                                        driver.find_element(By.ID, 'linkCust_H_13').send_keys("Encounter for screening for other viral diseases")
                                     except:
                                         pass
                                     # H.a - a - 	Return to clinic- PRN/As needed
@@ -875,11 +882,19 @@ def main_loop():
                                         driver.find_elements(By.ID, 'linkCust_H_a')[0].click()
                                     except:
                                         pass
-                                    # H.b-a - No
+                                    # H.b-a - Yes
                                     try:
-                                        driver.find_elements(By.ID, 'linkCust_H_b')[0].click()
+                                        driver.find_elements(By.ID, 'linkCust_H_b')[1].click()
                                     except:
                                         pass
+                                    t.sleep(1)
+                                    # H.b1
+                                    try:
+                                        driver.find_element(By.ID, 'linkCust_H_b1').clear()
+                                        driver.find_element(By.ID, 'linkCust_H_b1').send_keys("The minor is medically cleared to travel if no known exposure to COVID has occurred and no other concerns requiring medical follow-up and/or specialty follow-up have been identified in subsequent visits.")
+                                    except:
+                                        pass
+
                                     # H.c-a - No
                                     try:
                                         driver.find_elements(By.ID, 'linkCust_H_c')[0].click()
@@ -891,11 +906,11 @@ def main_loop():
                                     except:
                                         pass
                                     # H.f - Minor requires quarantine/ isolation, specify diagnosis and timeframe:
-                                    try:
-                                        driver.find_element(By.ID, 'linkCust_H_f').clear()
-                                        driver.find_element(By.ID, 'linkCust_H_f').send_keys("Quarantine minor for 7 days from day of arrival.")
-                                    except:
-                                        pass
+                                    # try:
+                                    #     driver.find_element(By.ID, 'linkCust_H_f').clear()
+                                    #     driver.find_element(By.ID, 'linkCust_H_f').send_keys("Quarantine minor for 7 days from day of arrival.")
+                                    # except:
+                                    #     pass
                                     # H.g - Immunizations given/validated from foreign record
                                     try:
                                         driver.find_element(By.ID, 'linkCust_H_g').click()
@@ -909,7 +924,7 @@ def main_loop():
                                     # H.p - Recommendations from Healthcare Provider/ Additional Information:
                                     try:
                                         driver.find_element(By.ID, 'linkCust_H_p').clear()
-                                        driver.find_element(By.ID, 'linkCust_H_p').send_keys("A rapid covid test was performed to show negative results.\n\nOrder COVID-19 lab testing due to the minor's travel history and possible COVID-19 exposure.\n\nThe minor is medically cleared to travel only if all covid quarantine clearance have been met and no other concerns requiring medical follow-up and/or subsequent visits.\n\nScribed by:\n\n")
+                                        driver.find_element(By.ID, 'linkCust_H_p').send_keys("The minor is medically cleared to travel if no known exposure to COVID has occurred and no other concerns requiring medical follow-up and/or specialty follow-up have been identified in subsequent visits.\n\n Scribed by:")
                                     except:
                                         pass
                                     print("Click on button Save & Exit")
@@ -1179,6 +1194,37 @@ def main_loop():
                                     # send_text(driver, 'linkCust_B_1d', ht)
                                     # send_text(driver, 'linkCust_B_1e', wt)
 
+                                    #B.1a. Clear Data
+                                    try:
+                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1a');']").click();
+                                    except:
+                                        pass
+                                    #B.1b. Clear Data
+                                    try:
+                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1b');']").click();
+                                    except:
+                                        pass
+                                    #B.1c. Clear Data
+                                    try:
+                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1c');']").click();
+                                    except:
+                                        pass
+                                    #B.1d. Clear Data
+                                    try:
+                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1d');']").click();
+                                    except:
+                                        pass
+                                    #B.1e. Clear Data
+                                    try:
+                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1e');']").click();
+                                    except:
+                                        pass
+                                    #B.1f. Clear Data
+                                    try:
+                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1f');']").click();
+                                    except:
+                                        pass
+
                                     #  B. History and Physical - Allergies 
                                     if no_allergies == 'Yes':
                                         send_click_pos(driver, 'linkCust_B_2', 0)
@@ -1224,61 +1270,62 @@ def main_loop():
                                     if no_abnormal_findings == 'Yes':
                                         send_click(driver, 'linkCust_C_1')
 
-                                    if general_appearance.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_1', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_1', 1)
 
-                                    if heent.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_2', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_2', 1)
+                                    # if general_appearance.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_1', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_1', 1)
 
-                                    if neck.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_3', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_3', 1)
+                                    # if heent.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_2', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_2', 1)
 
-                                    if heart.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_4', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_4', 1)
+                                    # if neck.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_3', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_3', 1)
 
-                                    if lungs.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_5', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_5', 1)
+                                    # if heart.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_4', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_4', 1)
 
-                                    if abdomen.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_6', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_6', 1)
+                                    # if lungs.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_5', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_5', 1)
+
+                                    # if abdomen.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_6', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_6', 1)
                                         
-                                    try:
-                                        d7a=driver.find_element_by_id('linkCust_D_7a')
-                                        ActionChains(driver).move_to_element( d7a).click( d7a).send_keys(describe).perform()
-                                    except:
-                                        pass
+                                    # try:
+                                    #     d7a=driver.find_element_by_id('linkCust_D_7a')
+                                    #     ActionChains(driver).move_to_element( d7a).click( d7a).send_keys(describe).perform()
+                                    # except:
+                                    #     pass
 
-                                    if extremeties.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_8', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_8', 1)
+                                    # if extremeties.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_8', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_8', 1)
 
-                                    if back_spine.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_9', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_9', 1)
+                                    # if back_spine.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_9', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_9', 1)
 
-                                    if neurologic.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_10', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_10', 1)
+                                    # if neurologic.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_10', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_10', 1)
 
-                                    if skin.lower() == 'normal':
-                                        send_click_pos(driver, 'linkCust_D_11', 0)
-                                    else:
-                                        send_click_pos(driver, 'linkCust_D_11', 1)
+                                    # if skin.lower() == 'normal':
+                                    #     send_click_pos(driver, 'linkCust_D_11', 0)
+                                    # else:
+                                    #     send_click_pos(driver, 'linkCust_D_11', 1)
 
                                     # try:
                                     #     driver.find_element(By.ID, 'linkCust_D_12').clear()
@@ -1389,7 +1436,7 @@ def main_loop():
                                     # ID: linkCust_F_1f
                                     # Name: Cust_F_1
                                     # Click in Yes
-                                    send_click_pos(driver, 'linkCust_F_1', 1)
+                                    send_click_pos(driver, 'linkCust_F_1', 0)
 
                                     # F. Diagnosis and Plan - Plan - a. Return to clinic: 
                                     # linkCust_F_a
@@ -1400,16 +1447,13 @@ def main_loop():
                                     # linkCust_F_b
                                     # Click on Yes
                                     send_click_pos(driver, 'linkCust_F_b', 1)
-
+                                    t.sleep(1)
+                                    # F. Diagnosis and Plan - Plan - b1. Specify travel:
                                     try:
-                                        # F. Diagnosis and Plan - Plan - b1. Specify travel:
-                                        # linkCust_F_b1
-                                        # Llenar textboc
-                                        f_b1=driver.find_element_by_id('linkCust_F_b1')
-                                        ActionChains(driver).move_to_element(f_b1).click(f_b1).send_keys(specify_travel).perform()
+                                        driver.find_element(By.ID, 'linkCust_F_b1').clear()
+                                        driver.find_element(By.ID, 'linkCust_F_b1').send_keys("The minor is medically cleared to travel if no known exposure to COVID has occurred and no other concerns requiring medical follow-up and/or specialty follow-up have been identified in subsequent visits.")
                                     except:
                                         pass
-
 
                                     # F. Diagnosis and Plan - Plan - c.Per program staff, discharge from ORR custody will be delayed?
                                     # linkCust_F_c
@@ -1424,7 +1468,7 @@ def main_loop():
                                     # F. Diagnosis and Plan - Plan - i.Age- appropriate anticipatory guidance discussed and/or handout given
                                     # linkCust_F_i
                                     # Clickbox
-                                    send_click_pos(driver, 'linkCust_F_i', 0)
+                                    # send_click_pos(driver, 'linkCust_F_i', 0)
 
 
                                     status_string = "Click button Save & Sign"
@@ -1670,7 +1714,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.9")
+        self.label2.configure(background='#ffffff', text="Version 1.10")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

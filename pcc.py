@@ -294,7 +294,7 @@ def sendRequest(subject, message, error = True):
             "bot": "pcc"
         }
         print(payload)
-        #r = requests.post("https://2qpxr842pk.execute-api.us-east-1.amazonaws.com/Prod/post-sns-data", data=json.dumps(payload))
+        r = requests.post("https://2qpxr842pk.execute-api.us-east-1.amazonaws.com/Prod/post-sns-data", data=json.dumps(payload))
         return payload
     except Exception as e:
         print(e)
@@ -451,7 +451,7 @@ def main_loop():
                         except:
                             pass
 
-                        t.sleep(2)
+                        t.sleep(3)
                         try:
                             print("Get User A #")
                             user_a=driver.find_elements(By.NAME, 'clientids')[4]
@@ -512,14 +512,13 @@ def main_loop():
                                     res = click_link(driver, "Immun")
                                     if res:
                                         sendRequest(targent_name, "Error: Unable to click on immunizations", True)
-                                        break
-
+                                        pass
                                     try:
                                         immun=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[6]/a')
                                         ActionChains(driver).move_to_element(immun).click(immun).perform()
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on immunizations table", True)
-                                        break
+                                        pass
                                     t.sleep(2)
                                     # Click on New button
                                     res = click_button_value(driver, "New")
@@ -623,18 +622,18 @@ def main_loop():
                                     res = click_link(driver, "Immun")
                                     if res:
                                         sendRequest(targent_name, "Error: Unable to click on immunizations link", True)
-                                        break
+                                        pass
                                     try:
                                         immun=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[6]/a')
                                         ActionChains(driver).move_to_element(immun).click(immun).perform()
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on immunizations table", True)
-                                        break
-                                    t.sleep(2)
+                                        pass
+                                    t.sleep(3)
                                     res = send_click_pos_by_class(driver, "listbuttonred", 0)
                                     if res:
                                         sendRequest(targent_name, "Error: Unable to click on listbuttonred", True)
-                                        break
+                                        pass
                                     t.sleep(2)
                                     wait_window(driver)
                                     # Select popup window
@@ -807,7 +806,8 @@ def main_loop():
                                     try:
                                         driver.find_element(By.ID, 'linkCust_A_3').clear()
                                         driver.find_element(By.ID, 'linkCust_A_3').send_keys(getData(data,'clinicname') or clinic_or_practice)
-                                    except:
+                                    except Exception as e:
+                                        print(e)
                                         sendRequest(targent_name, "Error: Unable to set clinicname", True)
                                         pass
                                     try:
@@ -1079,20 +1079,20 @@ def main_loop():
                                         pass
 
                                     print("Section H - Diagnosis and Plan")
-                                    # H.1 - b - Yes
+                                    # H.1 - b - No
                                     try:
-                                        driver.find_elements(By.ID, 'linkCust_H_1')[1].click()
+                                        driver.find_elements(By.ID, 'linkCust_H_1')[0].click()
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on H.1", True)
                                         pass
                                     t.sleep(1)
-                                    # H.13 - Medical Order
-                                    try:
-                                        driver.find_element(By.ID, 'linkCust_H_13').clear()
-                                        driver.find_element(By.ID, 'linkCust_H_13').send_keys("Encounter for screening for other viral diseases")
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to set H.13", True)
-                                        pass
+                                    # # H.13 - Medical Order
+                                    # try:
+                                    #     driver.find_element(By.ID, 'linkCust_H_13').clear()
+                                    #     driver.find_element(By.ID, 'linkCust_H_13').send_keys("Encounter for screening for other viral diseases")
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to set H.13", True)
+                                    #     pass
                                     # H.a - a - 	Return to clinic- PRN/As needed
                                     try:
                                         driver.find_elements(By.ID, 'linkCust_H_a')[0].click()
@@ -1138,12 +1138,12 @@ def main_loop():
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on H.g", True)
                                         pass
-                                    # H.i - Age- appropriate anticipatory guidance discussed and/or handout given
-                                    try:
-                                        driver.find_element(By.ID, 'linkCust_H_i').click()
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click on H.i", True)
-                                        pass
+                                    # # H.i - Age- appropriate anticipatory guidance discussed and/or handout given
+                                    # try:
+                                    #     driver.find_element(By.ID, 'linkCust_H_i').click()
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click on H.i", True)
+                                    #     pass
                                     # H.p - Recommendations from Healthcare Provider/ Additional Information:
                                     try:
                                         driver.find_element(By.ID, 'linkCust_H_p').clear()
@@ -1562,37 +1562,37 @@ def main_loop():
 
                                     #B.1a. Clear Data
                                     try:
-                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1a');']").click();
+                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1a\');"]').click();
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on B.1a", True)
                                         pass
                                     #B.1b. Clear Data
                                     try:
-                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1b');']").click();
+                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1b\');"]').click();
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on B.1b", True)
                                         pass
                                     #B.1c. Clear Data
                                     try:
-                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1c');']").click();
+                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1c\');"]').click();
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on B.1c", True)
                                         pass
                                     #B.1d. Clear Data
                                     try:
-                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1d');']").click();
+                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1d\');"]').click();
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on B.1d", True)
                                         pass
                                     #B.1e. Clear Data
                                     try:
-                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1e');']").click();
+                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1e\');"]').click();
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on B.1e", True)
                                         pass
                                     #B.1f. Clear Data
                                     try:
-                                        driver.find_element(By.XPATH, "//a[@href='javascript:clearPPControl('linkCust_B_1f');']").click();
+                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1f\');"]').click();
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on B.1f", True)
                                         pass
@@ -1625,41 +1625,43 @@ def main_loop():
                                     if res:
                                         sendRequest(targent_name, "Error: Unable to set B.3a", True)
 
-                                    res = send_text(driver, 'linkCust_B_3b', corrected_both_eyes)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.3b", True)
+                                    # res = send_text(driver, 'linkCust_B_3b', corrected_both_eyes)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.3b", True)
 
-                                    res = send_text(driver, 'linkCust_B_4', uncorrected_right_eye)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.4", True)
+                                    # res = send_text(driver, 'linkCust_B_4', uncorrected_right_eye)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.4", True)
 
-                                    res = send_text(driver, 'linkCust_B_4b', uncorrected_both_eyes)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.4b", True)
+                                    # res = send_text(driver, 'linkCust_B_4b', uncorrected_both_eyes)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.4b", True)
 
-                                    res = send_text(driver, 'linkCust_B_5', medical_history)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.5", True)
+                                    # res = send_text(driver, 'linkCust_B_5', medical_history)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.5", True)
 
-                                    res = send_text(driver, 'linkCust_B_6', travel_history)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.6", True)
+                                    # res = send_text(driver, 'linkCust_B_6', travel_history)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.6", True)
 
-                                    res = send_text(driver, 'linkCust_B_7', past_medical_history)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.7", True)
+                                    # res = send_text(driver, 'linkCust_B_7', past_medical_history)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.7", True)
 
-                                    res = send_text(driver, 'linkCust_B_8', family_history)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.8", True)
+                                    # res = send_text(driver, 'linkCust_B_8', family_history)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.8", True)
 
-                                    res = send_text(driver, 'linkCust_B_9', str(lmp))
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.9", True)
+                                    # res = send_text(driver, 'linkCust_B_9', str(lmp))
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.9", True)
 
-                                    res = send_text(driver, 'linkCust_B_9a', str(previous_regnancy))
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to set B.9a", True)
+                                    # res = send_text(driver, 'linkCust_B_9a', str(previous_regnancy))
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to set B.9a", True)
+
+
 
                                     res = send_text(driver, 'linkCust_C_21', other_1)
                                     if res:
@@ -1738,93 +1740,93 @@ def main_loop():
                                     # except:
                                     #     pass
                                     
-                                    asdddddd= driver.find_element_by_xpath('/html/body/table[5]/tbody/tr[2]/td/table/tbody/tr[5]/td/form/table/tbody/tr[2]/td/table/tbody/tr[5]/td[3]/table/tbody/tr[3]/td/table/tbody/tr[4]/td[2]')
+                                    # asdddddd= driver.find_element_by_xpath('/html/body/table[5]/tbody/tr[2]/td/table/tbody/tr[5]/td/form/table/tbody/tr[2]/td/table/tbody/tr[5]/td[3]/table/tbody/tr[3]/td/table/tbody/tr[4]/td[2]')
 
-                                    try:
+                                    # try:
                                         
-                                        buttonnn= asdddddd.find_elements_by_tag_name('input')
-                                        ActionChains(driver).move_to_element(buttonnn[int(mental_health)]).click(buttonnn[int(mental_health)]).perform()
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click mental_health", True)
-                                        pass
+                                    #     buttonnn= asdddddd.find_elements_by_tag_name('input')
+                                    #     ActionChains(driver).move_to_element(buttonnn[int(mental_health)]).click(buttonnn[int(mental_health)]).perform()
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click mental_health", True)
+                                    #     pass
 
                                     
                                     # Stop If Stop Button is pressed
                                     if thread_stopped == True:
                                         break
 
-                                    # Escondida checkbox
-                                    res = send_click_pos(driver, 'linkCust_F_2', 0)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to click F.2", True)
+                                    # # Escondida checkbox
+                                    # res = send_click_pos(driver, 'linkCust_F_2', 0)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to click F.2", True)
 
-                                    # Escondida checkbox
-                                    t.sleep(1)
-                                    res = send_click_pos(driver, 'linkCust_F_2b', 1)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to click F.2b", True)
+                                    # # Escondida checkbox
+                                    # t.sleep(1)
+                                    # res = send_click_pos(driver, 'linkCust_F_2b', 1)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to click F.2b", True)
 
-                                    t.sleep(1)
-                                    res = send_click_pos(driver, 'linkCust_G_1', 0)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to click G.1", True)
+                                    # t.sleep(1)
+                                    # res = send_click_pos(driver, 'linkCust_G_1', 0)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to click G.1", True)
 
-                                    t.sleep(1)
-                                    res = send_click_pos(driver, 'linkCust_G_2', 0)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to click G.2", True)
+                                    # t.sleep(1)
+                                    # res = send_click_pos(driver, 'linkCust_G_2', 0)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to click G.2", True)
 
-                                    res = send_click_pos(driver, 'linkCust_G_3', 0)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to click G.3", True)
+                                    # res = send_click_pos(driver, 'linkCust_G_3', 0)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to click G.3", True)
 
-                                    res = send_click_pos(driver, 'linkCust_G_4', 1)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to click G.4", True)
+                                    # res = send_click_pos(driver, 'linkCust_G_4', 1)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to click G.4", True)
 
-                                    # No se encontro
-                                    res = send_click_pos(driver, 'linkCust_H_1', 0)
-                                    if res:
-                                        sendRequest(targent_name, "Error: Unable to click H.1", True)
+                                    # # No se encontro
+                                    # res = send_click_pos(driver, 'linkCust_H_1', 0)
+                                    # if res:
+                                    #     sendRequest(targent_name, "Error: Unable to click H.1", True)
 
-                                    #linkCust_H_13
-                                    try:
-                                        # No se encontro
-                                        b1e=driver.find_elements_by_id('linkCust_H_13')
-                                        ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(other_medical).perform()
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click other_medical", True)
-                                        pass
+                                    # #linkCust_H_13
+                                    # try:
+                                    #     # No se encontro
+                                    #     b1e=driver.find_elements_by_id('linkCust_H_13')
+                                    #     ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(other_medical).perform()
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click other_medical", True)
+                                    #     pass
 
-                                    try:
-                                    # t.sleep(5)
-                                        # No se encontro
-                                        b1e=driver.find_elements_by_id('linkCust_H_14')
-                                    #ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).perform()
+                                    # try:
+                                    # # t.sleep(5)
+                                    #     # No se encontro
+                                    #     b1e=driver.find_elements_by_id('linkCust_H_14')
+                                    # #ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).perform()
                                     
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click linkCust_H_14", True)
-                                        pass
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click linkCust_H_14", True)
+                                    #     pass
                                     
-                                    try:
-                                    # t.sleep(5)
-                                        # No se encontro
-                                        b1e=driver.find_elements_by_id('linkCust_H_15')
-                                        ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).perform()
-                                        ActionChains(driver).move_to_element(b1e[5]).click(b1e[5]).perform()
-                                        ActionChains(driver).move_to_element(b1e[7]).click(b1e[7]).perform()
-                                        ActionChains(driver).move_to_element(b1e[10]).click(b1e[10]).perform()
+                                    # try:
+                                    # # t.sleep(5)
+                                    #     # No se encontro
+                                    #     b1e=driver.find_elements_by_id('linkCust_H_15')
+                                    #     ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).perform()
+                                    #     ActionChains(driver).move_to_element(b1e[5]).click(b1e[5]).perform()
+                                    #     ActionChains(driver).move_to_element(b1e[7]).click(b1e[7]).perform()
+                                    #     ActionChains(driver).move_to_element(b1e[10]).click(b1e[10]).perform()
                                         
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click linkCust_H_15", True)
-                                        pass
-                                    try:
-                                        # No se encontro
-                                        b1e=driver.find_elements_by_id('linkCust_H_15e')
-                                        ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(h15).perform()
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click linkCust_H_15e", True)
-                                        pass
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click linkCust_H_15", True)
+                                    #     pass
+                                    # try:
+                                    #     # No se encontro
+                                    #     b1e=driver.find_elements_by_id('linkCust_H_15e')
+                                    #     ActionChains(driver).move_to_element(b1e[0]).click(b1e[0]).send_keys(h15).perform()
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click linkCust_H_15e", True)
+                                    #     pass
                                             
                                     # AW: Describe concerns
                                     # try:
@@ -2165,7 +2167,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.10")
+        self.label2.configure(background='#ffffff', text="Version 2.0")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

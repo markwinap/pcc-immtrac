@@ -356,7 +356,8 @@ def sendRequest(subject, message, error = True):
             "computer": socket.gethostname(),
             "subject": subject,
             "message": message,
-            "error": error
+            "error": error,
+            "bot": "azdhs"
         }
         r = requests.post("https://2qpxr842pk.execute-api.us-east-1.amazonaws.com/Prod/post-sns-data", data=json.dumps(payload))
         return r

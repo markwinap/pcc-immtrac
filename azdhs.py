@@ -157,6 +157,14 @@ def send_text_name(d, el, data):
         return True
         pass
 
+def get_text_name(d, el):
+    try:
+        return d.find_element(By.NAME, el).text()
+    except Exception as e:
+        print(e)
+        return ''
+        pass
+
 def send_click_pos(d, el, pos):
     try:
         d.find_elements(By.ID, el)[pos].click()
@@ -437,7 +445,7 @@ def main_loop():
 
             send_text(driver, "guardianFirstName", getData(data,'Program Name'))
             send_text(driver, "motherMaidenName", getData(data,'Program Name'))
-            send_text(driver, "addressStreet", getData(data,'Street Address'))
+            send_text(driver, "addressStreet", getData(data,'Program Name'))
 
             send_click(driver, "addressCountryCode_chzn")
             send_text(driver, "addressCountryCode_chzn_text", "United States")
@@ -587,7 +595,7 @@ def main_loop():
 
                     row_number = 0
                     for i in range(len(vaccines_tables)):
-                        if clean_text(vaccines_tables[i].text).lower() == wordChars:
+                        if getWordChars(vaccines_tables[i].text).lower() == wordChars:
                             print("Found")
                             print(vaccines_tables[i].text)
                             print(vaccines_tables[i].get_attribute('id'))
@@ -646,9 +654,18 @@ def main_loop():
                     print("Add Vaccine Manufacturer")
                     print(select_vacc["Name"] + "-" + clean_text(str(select_vacc["Menu val"])))
 
+                    #find vaccine position
+                    vaccine_pos = 1
+                    for idy, vacc in enumerate(vaccines_list):
+                        wordChars = getWordChars(select_vacc["azdhsId"]).lower()
+                        if getWordChars(get_text_name(driver, "vaccCode_" + str((idy + 1)))).lower() == wordChars:
+                            print("Found")
+                            vaccine_pos = (idy + 1)
+                            break
+
                     # Click on Manufacturer
-                    print("manufacturerName_" + str(idx + 1))
-                    res = send_click_name(driver, "manufacturerName_" + str(idx + 1))
+                    print("manufacturerName_" + str(vaccine_pos))
+                    res = send_click_name(driver, "manufacturerName_" + str(vaccine_pos))
                     if res:
                         sendRequest(targent_name, "Error: Unable to click vaccine manufacturer", True)
                         break
@@ -674,6 +691,7 @@ def main_loop():
                             row = current_manufacture[x + 2].find_elements(By.TAG_NAME, 'td')
                             #available = getNumber(row[6].text)
                             available = str(row[2].text)
+                            print(available)
                             if lot_number == available:
                                 pos = x
                                 not_found = False
@@ -818,7 +836,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 4.0.0")
+        self.label2.configure(background='#ffffff', text="Version 4.0.1")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

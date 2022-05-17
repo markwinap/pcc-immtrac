@@ -159,7 +159,15 @@ def send_text_name(d, el, data):
 
 def get_text_name(d, el):
     try:
-        return d.find_element(By.NAME, el).text()
+        return d.find_element(By.NAME, el)
+    except Exception as e:
+        print(e)
+        return ''
+        pass
+
+def get_parent(child):
+    try:
+        return child.find_element(By.XPATH, '..')
     except Exception as e:
         print(e)
         return ''
@@ -646,7 +654,7 @@ def main_loop():
 
                 t.sleep(2)
                 wait_button(driver, '//input[@value="Save"]', By.XPATH)
-                for idx, vacc in enumerate(vaccines_list):
+                for vacc in enumerate(vaccines_list):
 
                     if thread_stopped == True:
                         break                    
@@ -658,7 +666,9 @@ def main_loop():
                     vaccine_pos = 1
                     for idy, vacc in enumerate(vaccines_list):
                         wordChars = getWordChars(select_vacc["azdhsId"]).lower()
-                        if getWordChars(get_text_name(driver, "vaccCode_" + str((idy + 1)))).lower() == wordChars:
+                        child = get_text_name(driver, "vaccCode_" + str((idy + 1)))
+                        parent = get_parent(child)
+                        if getWordChars(parent.text).lower() == wordChars:
                             print("Found")
                             vaccine_pos = (idy + 1)
                             break
@@ -680,7 +690,6 @@ def main_loop():
                     manufacture_len=len(current_manufacture)
                     print(manufacture_len)
                     if manufacture_len > 4:
-
                         if thread_stopped == True:
                             break
                         print("Select Manufacture")
@@ -726,6 +735,7 @@ def main_loop():
                 if thread_stopped == True:
                     break
                 # Save Button
+                print("Save")
                 res = send_click_by_value(driver, "Save")
                 if res:
                     sendRequest(targent_name, "Error: Unable to click Save Button", True)
@@ -836,7 +846,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 4.0.1")
+        self.label2.configure(background='#ffffff', text="Version 4.0.2")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

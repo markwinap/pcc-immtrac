@@ -657,8 +657,8 @@ def main_loop():
                 for vacc in enumerate(vaccines_list):
 
                     if thread_stopped == True:
-                        break                    
-                    select_vacc = get_vaccine_by_name(vacc, immunizations_list)
+                        break
+                    select_vacc = get_vaccine_by_name(vacc[1] if type(vacc) is tuple else vacc, immunizations_list)
                     print("Add Vaccine Manufacturer")
                     print(select_vacc["Name"] + "-" + clean_text(str(select_vacc["Menu val"])))
 
@@ -846,7 +846,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 4.0.2")
+        self.label2.configure(background='#ffffff', text="Version 4.0.3")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

@@ -1079,9 +1079,9 @@ def main_loop():
                                         pass
 
                                     print("Section H - Diagnosis and Plan")
-                                    # H.1 - b - No
+                                    # H.1 - b - Yes
                                     try:
-                                        driver.find_elements(By.ID, 'linkCust_H_1')[0].click()
+                                        driver.find_elements(By.ID, 'linkCust_H_1')[1].click()
                                     except:
                                         sendRequest(targent_name, "Error: Unable to click on H.1", True)
                                         pass
@@ -2167,7 +2167,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 2.0")
+        self.label2.configure(background='#ffffff', text="Version 2.1")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

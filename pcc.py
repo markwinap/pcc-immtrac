@@ -1561,41 +1561,41 @@ def main_loop():
                                     # send_text(driver, 'linkCust_B_1e', wt)
 
                                     #B.1a. Clear Data
-                                    try:
-                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1a\');"]').click();
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click on B.1a", True)
-                                        pass
-                                    #B.1b. Clear Data
-                                    try:
-                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1b\');"]').click();
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click on B.1b", True)
-                                        pass
-                                    #B.1c. Clear Data
-                                    try:
-                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1c\');"]').click();
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click on B.1c", True)
-                                        pass
-                                    #B.1d. Clear Data
-                                    try:
-                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1d\');"]').click();
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click on B.1d", True)
-                                        pass
-                                    #B.1e. Clear Data
-                                    try:
-                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1e\');"]').click();
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click on B.1e", True)
-                                        pass
-                                    #B.1f. Clear Data
-                                    try:
-                                        driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1f\');"]').click();
-                                    except:
-                                        sendRequest(targent_name, "Error: Unable to click on B.1f", True)
-                                        pass
+                                    # try:
+                                    #     driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1a\');"]').click();
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click on B.1a", True)
+                                    #     pass
+                                    # #B.1b. Clear Data
+                                    # try:
+                                    #     driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1b\');"]').click();
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click on B.1b", True)
+                                    #     pass
+                                    # #B.1c. Clear Data
+                                    # try:
+                                    #     driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1c\');"]').click();
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click on B.1c", True)
+                                    #     pass
+                                    # #B.1d. Clear Data
+                                    # try:
+                                    #     driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1d\');"]').click();
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click on B.1d", True)
+                                    #     pass
+                                    # #B.1e. Clear Data
+                                    # try:
+                                    #     driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1e\');"]').click();
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click on B.1e", True)
+                                    #     pass
+                                    # #B.1f. Clear Data
+                                    # try:
+                                    #     driver.find_element(By.XPATH, '//a[@href="javascript:clearPPControl(\'linkCust_B_1f\');"]').click();
+                                    # except:
+                                    #     sendRequest(targent_name, "Error: Unable to click on B.1f", True)
+                                    #     pass
 
                                     #  B. History and Physical - Allergies 
                                     if no_allergies == 'Yes':
@@ -1676,6 +1676,47 @@ def main_loop():
                                         res = send_click(driver, 'linkCust_C_1')
                                         if res:
                                             sendRequest(targent_name, "Error: Unable to click on C.1", True)
+
+                                    # Physical Examination D
+                                    res = send_click_pos(driver, 'linkCust_D_1', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.1.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_2', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.2.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_3', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.3.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_4', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.4.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_5', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.5.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_6', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.6.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_8', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.8.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_9', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.9.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_10', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.10.a", True)
+
+                                    res = send_click_pos(driver, 'linkCust_D_11', 0)
+                                    if res:
+                                        sendRequest(targent_name, "Error: Unable to set D.11.a", True)
 
 
                                     # if general_appearance.lower() == 'normal':
@@ -1862,7 +1903,7 @@ def main_loop():
                                     # ID: linkCust_F_1f
                                     # Name: Cust_F_1
                                     # Click in Yes
-                                    res = send_click_pos(driver, 'linkCust_F_1', 0)
+                                    res = send_click_pos(driver, 'linkCust_F_1', 1)
                                     if res:
                                         sendRequest(targent_name, "Error: Unable to click F.1", True)
 
@@ -2167,7 +2208,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 2.1")
+        self.label2.configure(background='#ffffff', text="Version 2.2")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

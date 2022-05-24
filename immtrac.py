@@ -20,6 +20,10 @@ from threading import Thread
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+import re
+import socket
+import json
+from urllib import parse
 
 # Global Variables
 driver = None
@@ -229,7 +233,7 @@ def get_vaccine_by_name(vac_name, imm_list):
         if imm_list[i]['Name'].lower() == vac_name.lower():
             return imm_list[i]
 
-def write_pdf(client_id, a, name, last_name, cookie):
+def write_pdf(client_id, secure_id, a, name, last_name, cookie):
     try:
         # print('$$$$$$$$')
         # print(cookie)
@@ -243,8 +247,8 @@ def write_pdf(client_id, a, name, last_name, cookie):
         http = requests.Session()
         http.mount("https://", adapter)
         http.mount("http://", adapter)
-
-        url = "https://immtrac.dshs.texas.gov/TXPRD/auth/generateGroupPatientsReport.do?clientId=" + str(client_id) + "&reportTypeId=12"
+        
+        url = "https://immtrac.dshs.texas.gov/TXPRD/auth/generateGroupPatientsReport.do?clientId=" + str(client_id) + "&pSecureId" + str(secure_id) + "&scheduleId=10&reportTypeId=12"
         payload={}
         headers = {
         'Cookie': cookie
@@ -271,6 +275,21 @@ def clean_text(txt):
         return new_string
     except:
         pass
+
+def sendRequest(subject, message, error = True):
+    try:
+        payload = {
+            "computer": socket.gethostname(),
+            "subject": subject,
+            "message": message,
+            "error": error,
+            "bot": "immtrac"
+        }
+        r = requests.post("https://2qpxr842pk.execute-api.us-east-1.amazonaws.com/Prod/post-sns-data", data=json.dumps(payload))
+        return r
+    except Exception as e:
+        print(e)
+        return ""
 
 # END FUNCTIONS
 
@@ -763,7 +782,12 @@ def main_loop():
             cookies = driver.get_cookies()
             client_id = driver.find_element(By.NAME, 'txtClientId').get_attribute('value')
             print(str(patient_list[i]['A#']) + "_" + patient_list[i]['First Name'])
-            write_pdf(client_id, patient_list[i]['A#'], patient_list[i]['First Name'], patient_list[i]['Last Name'], 'ROUTEID=' + get_cookie_value(cookies, 'ROUTEID') + '; dtCookie=' + get_cookie_value(cookies, 'dtCookie') + '; rxVisitor=' + get_cookie_value(cookies, 'rxVisitor') + '; iisjsessionid=' + get_cookie_value(cookies, 'iisjsessionid') + '; dtSa=' + get_cookie_value(cookies, 'dtSa') + '; dtLatC=' + get_cookie_value(cookies, 'dtLatC') + '; rxvt=' + get_cookie_value(cookies, 'rxvt') + '; dtPC=' + get_cookie_value(cookies, 'rxvt'))
+
+            url = driver.getCurrentUrl()
+            query_params = dict(parse.parse_qsl(parse.urlsplit(url).query))
+            secure_id = query_params['pSecureId']
+            print(str(secure_id))
+            write_pdf(client_id, secure_id, patient_list[i]['A#'], patient_list[i]['First Name'], patient_list[i]['Last Name'], 'iisjsessionid=' + get_cookie_value(cookies, 'iisjsessionid') + '; IISROUTEID=' + get_cookie_value(cookies, 'IISROUTEID') + '; rxVisitor=' + get_cookie_value(cookies, 'rxVisitor') + '; JSESSIONID=' + get_cookie_value(cookies, 'JSESSIONID') + '; dtSa=' + get_cookie_value(cookies, 'dtSa') + '; dtLatC=' + get_cookie_value(cookies, 'dtLatC') + '; rxvt=' + get_cookie_value(cookies, 'rxvt') + '; dtPC=' + get_cookie_value(cookies, 'rxvt'))
 
             if len(driver.window_handles) > 1:
                 select_window(driver, -1)
@@ -773,11 +797,13 @@ def main_loop():
 
         except Exception as e:
             # log error
+            sendRequest("System", str(e), True)
             with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "error.txt"), "a") as myfile:
                 myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " - " + "Main profile creation" + " - " + str(e) + "\n")
             pass
         time.sleep(4)
     print("COMPLETED")
+    sendRequest("System", "Process Completed", False)
 # 
 def get_vaccine_by_name(vac_name, imm_list):
     for i in range(len(imm_list)):
@@ -868,7 +894,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 1.9.1")
+        self.label2.configure(background='#ffffff', text="Version 2.0.0")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

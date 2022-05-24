@@ -301,7 +301,7 @@ def update_status(msg):
 
 def open_chrome():
     global driver, options
-    tkinter.messagebox.showinfo("Information", "Please log into your account using next opening browser. Then click on 'Start' button to start the automation.")
+    # tkinter.messagebox.showinfo("Information", "Please log into your account using next opening browser. Then click on 'Start' button to start the automation.")
     update_status("Opening Chrome..")
     options = Options()
     options.add_argument("start-maximized")
@@ -782,8 +782,8 @@ def main_loop():
             cookies = driver.get_cookies()
             client_id = driver.find_element(By.NAME, 'txtClientId').get_attribute('value')
             print(str(patient_list[i]['A#']) + "_" + patient_list[i]['First Name'])
-
-            url = driver.getCurrentUrl()
+            print(driver.current_url)
+            url = driver.current_url
             query_params = dict(parse.parse_qsl(parse.urlsplit(url).query))
             secure_id = query_params['pSecureId']
             print(str(secure_id))
@@ -894,7 +894,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 2.0")
+        self.label2.configure(background='#ffffff', text="Version 2.1")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

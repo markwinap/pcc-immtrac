@@ -50,7 +50,11 @@ save_button_el_id = "saveButton"
 ethnicity="Hispanic or Latino"
 race="Other Race"
 
-
+class SetEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):
+            return list(obj)
+        return json.JSONEncoder.default(self, obj)
 # FUNCTIONS
 def wait_button(d, el, t):
     try:
@@ -477,7 +481,7 @@ def main_loop():
                 print(status_string)
                 select_menu_id_text(driver, ethnicity_el_id, ethnicity)
                 # ZIP Code
-                send_text(driver, zip_el_id, patient_list[i]['ZIP'])
+                send_text(driver, zip_el_id, clean_text(str(patient_list[i]['ZIP'])))
                 # City
                 send_text(driver, city_el_id, patient_list[i]['City'])
                 # Country
@@ -894,7 +898,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 2.1")
+        self.label2.configure(background='#ffffff', text="Version 2.2")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

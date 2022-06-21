@@ -2,3 +2,7 @@ New2022-04-28 22:28:45 - Can't convert 'int' object to str implicitly
 2022-04-28 22:32:38 - list index out of range
 2022-04-28 22:35:36 - list index out of range
 2022-05-03 00:19:04 - list index out of range
+2022-05-24 17:46:33 - Main profile creation - 'WebDriver' object has no attribute 'getCurrentUrl'
+2022-05-24 17:58:56 - Main profile creation - name 'river' is not defined
+2022-05-24 18:00:16 - Main profile creation - name 'river' is not defined
+2022-05-24 18:02:22 - Main profile creation - 'pSecureId'

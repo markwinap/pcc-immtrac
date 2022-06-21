@@ -455,11 +455,13 @@ def main_loop():
             send_text(driver, "motherMaidenName", getData(data,'Program Name'))
             send_text(driver, "addressStreet", getData(data,'Program Name'))
 
+            send_text(driver, "addressCity", getData(data,'City'))            
+
             send_click(driver, "addressCountryCode_chzn")
             send_text(driver, "addressCountryCode_chzn_text", "United States")
             send_enter(driver, "addressCountryCode_chzn_text")
             t.sleep(1)
-            send_text(driver,"addressZipCode", getData(data,'ZIP'))
+            send_text(driver,"addressZipCode", clean_text(str(getData(data,'ZIP'))))
             send_enter(driver, "addressZipCode")
             t.sleep(1)
 
@@ -846,7 +848,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 4.0.3")
+        self.label2.configure(background='#ffffff', text="Version 4.0.4")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

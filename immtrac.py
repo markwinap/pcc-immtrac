@@ -414,7 +414,7 @@ def main_loop():
                 b_day = pd.Timestamp(patient_list[i]['Birth Date'])
                 send_text(driver, birth_date_el_id, b_day.strftime("%m/%d/%Y"))
                 # Gender
-                select_menu_id_text(driver, gender_el_id, patient_list[i]['Gender'])
+                select_menu_id_text(driver, gender_el_id, patient_list[i]['Gender'].strip())
                 # Address
                 send_text(driver, streen_address_el_id, patient_list[i]['Street Address'])
                 # Click on Find button
@@ -485,7 +485,7 @@ def main_loop():
                 # City
                 send_text(driver, city_el_id, patient_list[i]['City'])
                 # Country
-                select_menu_id_text(driver, country_el_id, patient_list[i]['County'])
+                select_menu_id_text(driver, country_el_id, patient_list[i]['County'].upper().strip())
 
                 # Stop If Stop Button is pressed
                 if thread_stopped == True:
@@ -898,7 +898,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 2.2")
+        self.label2.configure(background='#ffffff', text="Version 2.3")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

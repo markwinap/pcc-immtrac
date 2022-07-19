@@ -511,13 +511,13 @@ def main_loop():
                                     # Click on Immun tab
                                     res = click_link(driver, "Immun")
                                     if res:
-                                        sendRequest(targent_name, "Error: Unable to click on immunizations", True)
+                                        # sendRequest(targent_name, "Error: Unable to click on immunizations", True)
                                         pass
                                     try:
                                         immun=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[6]/a')
                                         ActionChains(driver).move_to_element(immun).click(immun).perform()
                                     except:
-                                        sendRequest(targent_name, "Error: Unable to click on immunizations table", True)
+                                        # sendRequest(targent_name, "Error: Unable to click on immunizations table", True)
                                         pass
                                     t.sleep(2)
                                     # Click on New button
@@ -621,13 +621,13 @@ def main_loop():
                                     t.sleep(1)
                                     res = click_link(driver, "Immun")
                                     if res:
-                                        sendRequest(targent_name, "Error: Unable to click on immunizations link", True)
+                                        # sendRequest(targent_name, "Error: Unable to click on immunizations link", True)
                                         pass
                                     try:
                                         immun=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[6]/a')
                                         ActionChains(driver).move_to_element(immun).click(immun).perform()
                                     except:
-                                        sendRequest(targent_name, "Error: Unable to click on immunizations table", True)
+                                        # sendRequest(targent_name, "Error: Unable to click on immunizations table", True)
                                         pass
                                     t.sleep(3)
                                     res = send_click_pos_by_class(driver, "listbuttonred", 0)

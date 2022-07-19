@@ -76,6 +76,10 @@ describe_concerns=""
 mental_health="0"
 h15="n"
 other_medical="Contact with and (suspected) exposure to COVID-19."
+value_initial_medical_exam = '549809'
+value_quarantine_isolation = '547095'
+value_standing_orders_12_over = '548012'
+
 
 # Strings
 specify_travel = "The minor is medically cleared to travel only if all covid quarantine clearance criteria have been met and no other concerns requiring medical follow up and/or specialty follow-up have been identified in subsequent visits."
@@ -730,7 +734,7 @@ def main_loop():
                                     if res:
                                         sendRequest(targent_name, "Error: Unable to select window", True)
                                         break
-                                    print("*Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3 ")
+                                    print("*Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR) - V4 ")
                                     # Click on "Assmnts"
                                     try:
                                         assessment=driver.find_element(By.XPATH, '/html/body/table[6]/tbody/tr[2]/td/ul/li[9]/a')
@@ -763,7 +767,7 @@ def main_loop():
                                     try:
                                         assessment = Select(driver.find_element(By.ID, 'std_assessment'))
                                         # *Initial Medical Exam Unaccompanied Children's Program Office of Refugee Resettlement (ORR)  - V 3 
-                                        assessment.select_by_value('548885')
+                                        assessment.select_by_value(value_initial_medical_exam)
                                     except:
                                         sendRequest(targent_name, "Error: Unable to select assessment", True)
                                         pass
@@ -1197,7 +1201,7 @@ def main_loop():
                                         # Select Assesment
                                         assessment = Select(driver.find_element(By.ID, 'std_assessment'))
                                         # Quarantine/Isolation 
-                                        assessment.select_by_value('547095')
+                                        assessment.select_by_value(value_quarantine_isolation)
                                     except:
                                         sendRequest(targent_name, "Error: Unable to select Assesment", True)
                                         pass
@@ -1336,7 +1340,7 @@ def main_loop():
                                         # Select Assesment
                                         assessment = Select(driver.find_element(By.ID, 'std_assessment'))
                                         # Standing Orders 12 and Over 
-                                        assessment.select_by_value('548012')
+                                        assessment.select_by_value(value_standing_orders_12_over)
                                     except:
                                         sendRequest(targent_name, "Error: Unable to select Assesment", True)
                                         pass
@@ -2208,7 +2212,7 @@ class NewprojectApp:
 
         # Version Footer
         self.label2 = tk.Label(self.frame2)
-        self.label2.configure(background='#ffffff', text="Version 2.2")
+        self.label2.configure(background='#ffffff', text="Version 2.3")
         self.label2.pack(side='top')
         self.frame2.configure(background='#ffffff', height='200', width='200')
         self.frame2.pack(side='top')

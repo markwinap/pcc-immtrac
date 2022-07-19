@@ -327,7 +327,7 @@ def main_loop():
 
     print("SELECTED SHEET " + selected_sheet)
 
-    # Read Immunizations.xlsx Excel file
+    # Read data.xlsx Excel file
     df = pd.read_excel(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.xlsx"), sheet_name=selected_sheet)
     patient_list = []
     for index, row in df.iterrows():
@@ -813,7 +813,7 @@ def get_vaccine_by_name(vac_name, imm_list):
     for i in range(len(imm_list)):
         if imm_list[i]['Option'].lower() == vac_name.lower():
             return imm_list[i]
-
+D:\Github\pcc-immtrac
 # Get
 def get_covid_vaccine_by_name(imm_list):
     return imm_list[len(imm_list)-1]
